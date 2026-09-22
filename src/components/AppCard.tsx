@@ -15,6 +15,7 @@ import { FaGooglePlay, FaStar, FaGamepad } from 'react-icons/fa6';
 import { motion } from 'framer-motion';
 import { AppItem } from '@/lib/defaultData';
 import QRCodeModal from './QRCodeModal';
+import AppIcon from './ui/AppIcon';
 
 interface AppCardProps {
   app: AppItem;
@@ -57,9 +58,9 @@ export default function AppCard({ app }: AppCardProps) {
             <div className="flex items-center gap-3.5">
               <Link
                 href={detailUrl}
-                className="h-14 w-14 rounded-2xl bg-gradient-to-br from-red-600/20 via-rose-600/20 to-transparent border border-red-500/30 flex items-center justify-center text-3xl shadow-sm shrink-0 group-hover:scale-105 transition-transform"
+                className="h-14 w-14 rounded-2xl bg-gradient-to-br from-red-600/20 via-rose-600/20 to-transparent border border-red-500/30 flex items-center justify-center shadow-sm shrink-0 group-hover:scale-105 transition-transform"
               >
-                {app.icon || (isGame ? '🎮' : '📱')}
+                <AppIcon title={app.title} category={app.category} iconString={app.icon} className="h-7 w-7" />
               </Link>
               <div>
                 <div className="flex flex-wrap items-center gap-2">

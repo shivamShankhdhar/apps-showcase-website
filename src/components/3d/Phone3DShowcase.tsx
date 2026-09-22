@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion';
-import { FaGamepad, FaStar } from 'react-icons/fa6';
+import { FaGamepad, FaStar, FaDiceD6, FaChessKnight } from 'react-icons/fa6';
 import { FiArrowRight, FiZap } from 'react-icons/fi';
 import { LudoBackdropArt } from './LudoBackdropArt';
 import { LudoBoardView } from '../game-boards/LudoBoardView';
@@ -139,7 +139,13 @@ export default function Phone3DShowcase() {
               {/* Header Badge floating above board */}
               <div className="mb-3 flex items-center justify-between w-full px-2">
                 <div className="flex items-center gap-2">
-                  <span className="text-xl">{game.icon}</span>
+                  <span className="p-1 rounded-lg bg-black/40 border border-white/10 flex items-center justify-center">
+                    {game.type === 'ludo' ? (
+                      <FaDiceD6 className="h-4 w-4 text-amber-400" />
+                    ) : (
+                      <FaChessKnight className="h-4 w-4 text-rose-400" />
+                    )}
+                  </span>
                   <div>
                     <h3 className="text-sm font-black text-white tracking-tight">
                       {game.title}

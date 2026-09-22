@@ -11,8 +11,8 @@ export default function Header() {
   const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
 
   const navLinks = [
-    { href: '/#apps', label: 'All Apps' },
-    { href: '/games', label: '🎮 Games' },
+    { href: '/apps', label: 'Applications' },
+    { href: '/games', label: 'Games Showcase' },
     { href: '/privacy-policy', label: 'Privacy Policy' },
   ];
 
@@ -23,8 +23,8 @@ export default function Header() {
           
           {/* Logo Branding */}
           <Link href="/" className="flex items-center gap-3 group">
-            <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center text-white text-xl shadow-md shadow-red-600/30 group-hover:scale-105 transition-transform">
-              📱
+            <div className="h-10 w-10 rounded-2xl bg-gradient-to-tr from-red-600 to-rose-600 flex items-center justify-center text-white shadow-md shadow-red-600/30 group-hover:scale-105 transition-transform">
+              <FiSmartphone className="h-5 w-5 text-white" />
             </div>
             <div>
               <div className="flex items-center gap-1.5">

@@ -57,15 +57,17 @@ export default async function GamesPage() {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-red-500/20 bg-[#12131c] text-slate-300 hover:text-red-400 transition-all shadow-xs"
           >
             <FiArrowLeft className="h-3.5 w-3.5 text-red-500" />
-            <span>Back to All Apps</span>
+            <span>Return to Overview</span>
           </Link>
 
-          <div className="flex items-center gap-1.5 text-slate-400 text-xs">
-            <Link href="/" className="hover:text-red-400 transition-colors">
-              Apps Hub
+          <div className="flex items-center gap-3">
+            <Link
+              href="/apps"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl border border-cyan-500/30 bg-cyan-600/10 text-cyan-400 hover:bg-cyan-600/20 text-xs font-semibold transition-all"
+            >
+              <FiSmartphone className="h-3.5 w-3.5" />
+              <span>Browse Applications</span>
             </Link>
-            <FiChevronRight className="h-3 w-3" />
-            <span className="text-white font-semibold">Games Showcase</span>
           </div>
         </div>
 

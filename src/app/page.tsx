@@ -5,18 +5,18 @@ import {
   FiZap,
   FiShield,
   FiCpu,
-  FiArrowDown,
   FiLayers,
   FiCheckCircle,
   FiExternalLink,
+  FiArrowRight,
+  FiCode,
 } from 'react-icons/fi';
-import { FaGamepad, FaGooglePlay } from 'react-icons/fa6';
+import { FaGamepad, FaGooglePlay, FaDiceD6, FaChessKnight } from 'react-icons/fa6';
 import connectDB, { isDbConfigured } from '@/lib/db';
 import App from '@/models/App';
 import { defaultApps, AppItem } from '@/lib/defaultData';
 import Phone3DShowcase from '@/components/3d/Phone3DShowcase';
 import ParticleMatrix from '@/components/3d/ParticleMatrix';
-import AppsShowcase from '@/components/AppsShowcase';
 
 async function getApps(): Promise<AppItem[]> {
   try {
@@ -37,7 +37,8 @@ async function getApps(): Promise<AppItem[]> {
 
 export default async function HomePage() {
   const apps = await getApps();
-  const games = apps.filter((a) => (a.category || '').toLowerCase() === 'games');
+  const gamesCount = apps.filter((a) => (a.category || '').toLowerCase() === 'games').length;
+  const appsCount = apps.filter((a) => (a.category || '').toLowerCase() === 'apps').length;
   const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
 
   return (
@@ -59,7 +60,7 @@ export default async function HomePage() {
             {/* Status Pill */}
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-red-500/10 text-red-400 border border-red-500/30 shadow-sm">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-ping" />
-              <span>Google Play Production & Closed Testing Releases</span>
+              <span>Google Play Production & Closed Testing Track</span>
             </div>
 
             {/* Headline */}
@@ -77,22 +78,23 @@ export default async function HomePage() {
               Experience production Android applications engineered with React Native, Expo, and low-latency native modules. Featuring Stockfish AI chess engines, 60 FPS real-time board loops, and privacy-first local storage.
             </p>
 
-            {/* Hero CTAs */}
+            {/* Hero CTAs: Separated Dedicated Page Links */}
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2">
-              <a
-                href="#apps"
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-lg shadow-red-600/30 hover:-translate-y-0.5 transition-all"
-              >
-                <span>Browse All Applications</span>
-                <FiArrowDown className="h-4 w-4" />
-              </a>
-
               <Link
                 href="/games"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-lg shadow-red-600/30 hover:-translate-y-0.5 transition-all"
+              >
+                <FaGamepad className="h-4 w-4" />
+                <span>Play Games Showcase</span>
+                <FiArrowRight className="h-4 w-4" />
+              </Link>
+
+              <Link
+                href="/apps"
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-2xl text-sm font-bold bg-white/5 hover:bg-red-500/15 text-white hover:text-red-400 border border-red-500/30 transition-all shadow-sm"
               >
-                <FaGamepad className="h-4 w-4 text-red-500" />
-                <span>Play Games Showcase</span>
+                <FiSmartphone className="h-4 w-4 text-red-500" />
+                <span>Browse Applications</span>
               </Link>
 
               <a
@@ -101,7 +103,7 @@ export default async function HomePage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-3 rounded-2xl text-xs font-semibold text-slate-400 hover:text-white transition-colors"
               >
-                <span>Full Portfolio</span>
+                <span>Portfolio</span>
                 <FiExternalLink className="h-3.5 w-3.5" />
               </a>
             </div>
@@ -109,18 +111,18 @@ export default async function HomePage() {
             {/* Live Stats Pill Grid */}
             <div className="pt-6 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-lg mx-auto lg:mx-0">
               <div className="p-3 rounded-2xl bg-[#12131c]/70 border border-red-500/20 backdrop-blur-md text-center lg:text-left">
-                <p className="text-xl font-black text-white">{apps.length}</p>
-                <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Live Titles</p>
+                <p className="text-xl font-black text-white">{gamesCount} Games</p>
+                <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Playable Hub</p>
+              </div>
+
+              <div className="p-3 rounded-2xl bg-[#12131c]/70 border border-red-500/20 backdrop-blur-md text-center lg:text-left">
+                <p className="text-xl font-black text-white">{appsCount} Apps</p>
+                <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Productivity</p>
               </div>
 
               <div className="p-3 rounded-2xl bg-[#12131c]/70 border border-red-500/20 backdrop-blur-md text-center lg:text-left">
                 <p className="text-xl font-black text-red-400">60 FPS</p>
                 <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">Board Loop</p>
-              </div>
-
-              <div className="p-3 rounded-2xl bg-[#12131c]/70 border border-red-500/20 backdrop-blur-md text-center lg:text-left">
-                <p className="text-xl font-black text-white">4.9 ★</p>
-                <p className="text-[10px] text-slate-400 uppercase tracking-wider font-semibold">User Rating</p>
               </div>
 
               <div className="p-3 rounded-2xl bg-[#12131c]/70 border border-red-500/20 backdrop-blur-md text-center lg:text-left">
@@ -184,24 +186,128 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Main Apps & Games Showcase Section */}
-      <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
+      {/* Two Dedicated Hub Portals (Replacing direct in-page listing) */}
+      <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12">
         <div className="text-center space-y-3 max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/20">
-            <FiSmartphone className="h-3.5 w-3.5" />
-            <span>Production Catalog</span>
+            <FiLayers className="h-3.5 w-3.5" />
+            <span>Dedicated Hubs</span>
           </div>
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-            Explore All <span className="text-gradient-red">Apps & Games</span>
+            Explore the <span className="text-gradient-red">Ecosystem</span>
           </h2>
           <p className="text-sm sm:text-base text-slate-400">
-            Filter between playable mobile games and developer productivity utilities.
+            Select a dedicated showcase below to explore deep technical specifications, live rules, and Google Play downloads.
           </p>
         </div>
 
-        {/* Client Interactive Showcase with Filter and Search */}
-        <AppsShowcase initialApps={apps} />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          
+          {/* Portal Card 1: Games Hub */}
+          <div className="rounded-3xl bg-[#12131c] border-2 border-red-500/30 hover:border-red-500/60 p-8 sm:p-10 shadow-2xl transition-all space-y-6 group relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-red-600/10 rounded-full blur-3xl group-hover:bg-red-600/20 transition-all pointer-events-none" />
+            
+            <div className="space-y-4 relative z-10">
+              <div className="flex items-center justify-between">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-red-600/20 to-rose-600/20 border border-red-500/30 flex items-center justify-center text-3xl shadow-inner">
+                  <FaGamepad className="text-red-400 h-8 w-8" />
+                </div>
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-red-500/10 text-red-400 border border-red-500/30 font-mono">
+                  {gamesCount} Playable Titles
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-2xl sm:text-3xl font-black text-white group-hover:text-red-400 transition-colors">
+                  Playable Games Hub
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 font-semibold mt-1">
+                  Ludo Binge &bull; Chess Binge &bull; WebSocket Arena
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Featuring authentic 15x15 vectorized Ludo boards, rotating celestial astrolabe backdrop artwork, real-time 3D dice physics, and local Stockfish AI analysis engines.
+              </p>
+
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                  ⚡ 60 FPS Engine
+                </span>
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                  🌐 WebSockets
+                </span>
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                  ♟ Stockfish 16
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/10 relative z-10">
+              <Link
+                href="/games"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl font-bold text-sm bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-lg shadow-red-600/30 transition-all cursor-pointer"
+              >
+                <span>Enter Games Hub</span>
+                <FiArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Portal Card 2: Applications Catalog */}
+          <div className="rounded-3xl bg-[#12131c] border-2 border-red-500/30 hover:border-red-500/60 p-8 sm:p-10 shadow-2xl transition-all space-y-6 group relative overflow-hidden flex flex-col justify-between">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-cyan-600/10 rounded-full blur-3xl group-hover:bg-cyan-600/20 transition-all pointer-events-none" />
+            
+            <div className="space-y-4 relative z-10">
+              <div className="flex items-center justify-between">
+                <div className="h-16 w-16 rounded-2xl bg-gradient-to-tr from-cyan-600/20 to-blue-600/20 border border-cyan-500/30 flex items-center justify-center text-3xl shadow-inner">
+                  <FiSmartphone className="text-cyan-400 h-8 w-8" />
+                </div>
+                <span className="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-cyan-500/10 text-cyan-400 border border-cyan-500/30 font-mono">
+                  {appsCount} Production Apps
+                </span>
+              </div>
+
+              <div>
+                <h3 className="text-2xl sm:text-3xl font-black text-white group-hover:text-cyan-400 transition-colors">
+                  Mobile Applications
+                </h3>
+                <p className="text-xs sm:text-sm text-slate-300 font-semibold mt-1">
+                  FlowTask &bull; DevLens &bull; Utilities
+                </p>
+              </div>
+
+              <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                Developer utilities and privacy-conscious productivity tools with offline-first SQLite encryption, live HTTP packet telemetry, and zero tracking policies.
+              </p>
+
+              <div className="flex flex-wrap gap-2 pt-2">
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                  🔒 SQLite AES-256
+                </span>
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                  ⚡ 60 FPS Telemetry
+                </span>
+                <span className="text-[11px] font-mono px-2.5 py-1 rounded-lg bg-black/40 border border-white/10 text-slate-300">
+                  🛡️ Zero Trackers
+                </span>
+              </div>
+            </div>
+
+            <div className="pt-4 border-t border-white/10 relative z-10">
+              <Link
+                href="/apps"
+                className="w-full inline-flex items-center justify-center gap-2 py-3.5 px-6 rounded-2xl font-bold text-sm bg-white/5 hover:bg-cyan-500/15 text-white hover:text-cyan-300 border border-cyan-500/30 transition-all cursor-pointer"
+              >
+                <span>Browse Applications Catalog</span>
+                <FiArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
+          </div>
+
+        </div>
       </section>
+
     </main>
   );
 }

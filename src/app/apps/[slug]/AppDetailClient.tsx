@@ -17,6 +17,7 @@ import { BsQrCode } from 'react-icons/bs';
 import { FaGooglePlay, FaStar } from 'react-icons/fa6';
 import { AppItem } from '@/lib/defaultData';
 import QRCodeModal from '@/components/QRCodeModal';
+import AppIcon from '@/components/ui/AppIcon';
 
 interface AppDetailClientProps {
   app: AppItem;
@@ -48,15 +49,19 @@ export default function AppDetailClient({ app }: AppDetailClientProps) {
         {/* Navigation Breadcrumb */}
         <div className="flex flex-wrap items-center justify-between gap-4 text-xs sm:text-sm">
           <Link
-            href="/#apps"
+            href="/apps"
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-red-500/20 bg-[#12131c] text-slate-300 hover:text-red-400 transition-all shadow-xs"
           >
             <FiArrowLeft className="h-3.5 w-3.5 text-red-500" />
-            <span>Back to All Applications</span>
+            <span>Back to Applications</span>
           </Link>
 
           <div className="flex items-center gap-1.5 text-slate-400 text-xs">
             <Link href="/" className="hover:text-red-400 transition-colors">
+              Home
+            </Link>
+            <span>/</span>
+            <Link href="/apps" className="hover:text-red-400 transition-colors">
               Apps
             </Link>
             <span>/</span>
@@ -68,8 +73,8 @@ export default function AppDetailClient({ app }: AppDetailClientProps) {
         <div className="rounded-3xl border border-red-500/25 bg-[#12131c]/90 p-8 sm:p-10 space-y-8 backdrop-blur-md shadow-2xl">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="flex items-center gap-5">
-              <div className="h-20 w-20 rounded-3xl bg-gradient-to-tr from-red-600/20 to-rose-600/20 border border-red-500/40 flex items-center justify-center text-4xl shadow-lg shrink-0">
-                {app.icon || '📱'}
+              <div className="h-20 w-20 rounded-3xl bg-gradient-to-tr from-red-600/20 to-rose-600/20 border border-red-500/40 flex items-center justify-center shadow-lg shrink-0">
+                <AppIcon title={app.title} category={app.category} iconString={app.icon} className="h-10 w-10" />
               </div>
               <div>
                 <div className="flex items-center gap-2.5">
