@@ -26,6 +26,7 @@ const appSchema = new mongoose.Schema(
     technologies: [{ type: String, trim: true }],
     highlights: [{ type: String, trim: true }],
     features: [featureSchema],
+    containsAds: { type: Boolean, default: true },
     featured: { type: Boolean, default: true },
     order: { type: Number, default: 0 },
   },

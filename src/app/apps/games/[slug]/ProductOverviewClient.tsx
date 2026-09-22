@@ -179,6 +179,17 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                 </span>
                 <span className="text-slate-500">•</span>
                 <span className="text-slate-400">{game.version || 'v1.0.0'}</span>
+                {game.containsAds && (
+                  <>
+                    <span className="text-slate-500">•</span>
+                    <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-300 border border-amber-500/30 font-sans text-[11px] font-medium shadow-sm">
+                      <span className="text-[9px] font-bold px-1 rounded bg-amber-400/20 text-amber-300 uppercase tracking-wide">
+                        Ad
+                      </span>
+                      <span>Contains ads</span>
+                    </span>
+                  </>
+                )}
               </div>
 
               <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight">
@@ -195,7 +206,7 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
             </div>
 
             {/* Architecture Spec Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3 border-y border-white/10 text-xs">
+            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 py-3 border-y border-white/10 text-xs">
               <div>
                 <p className="text-[10px] text-slate-400 uppercase font-mono">Platform Target</p>
                 <p className="text-xs font-bold text-white font-mono mt-0.5">Android 8.0+ (API 26)</p>
@@ -206,7 +217,13 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
               </div>
               <div>
                 <p className="text-[10px] text-slate-400 uppercase font-mono">Multiplayer</p>
-                <p className="text-xs font-bold text-white mt-0.5">Single-Device Pass & Play</p>
+                <p className="text-xs font-bold text-white mt-0.5">Pass & Play (Single Device)</p>
+              </div>
+              <div>
+                <p className="text-[10px] text-slate-400 uppercase font-mono">Monetization</p>
+                <p className="text-xs font-bold text-amber-300 mt-0.5">
+                  {game.containsAds ? 'Contains Ads' : 'Ad-Free'}
+                </p>
               </div>
               <div>
                 <p className="text-[10px] text-slate-400 uppercase font-mono">Privacy Track</p>
@@ -269,18 +286,23 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
             <div className="lg:col-span-5 flex justify-center">
               <div
                 onClick={() => setLightboxImg(currentScreenshots[activeScreenIndex].src)}
-                className="relative group cursor-pointer w-full max-w-[270px] sm:max-w-[290px] rounded-[30px] p-2 bg-[#09090b] border border-white/20 shadow-2xl hover:scale-[1.01] transition-transform"
+                className="relative group cursor-pointer w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl hover:scale-[1.01] transition-transform"
               >
-                <div className="relative rounded-[22px] overflow-hidden aspect-[9/16] bg-black">
+                {/* Simulated Phone Speaker / Dynamic Island Indicator */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
+                </div>
+
+                <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
                   <Image
                     src={currentScreenshots[activeScreenIndex].src}
                     alt={currentScreenshots[activeScreenIndex].title}
                     fill
-                    className="object-cover"
-                    sizes="300px"
+                    className="object-contain"
+                    sizes="(max-width: 768px) 100vw, 320px"
                     priority
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-medium backdrop-blur-xs">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-medium backdrop-blur-xs z-10">
                     <FiMaximize2 className="h-4 w-4" />
                     <span>Expand High-Res</span>
                   </div>
@@ -342,9 +364,9 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                       key={idx}
                       type="button"
                       onClick={() => setActiveScreenIndex(idx)}
-                      className={`relative aspect-[9/16] rounded-lg overflow-hidden border transition-all cursor-pointer ${
+                      className={`relative aspect-[9/19.5] rounded-lg overflow-hidden border transition-all cursor-pointer bg-black ${
                         activeScreenIndex === idx
-                          ? 'border-white scale-105 shadow-md'
+                          ? 'border-white scale-105 shadow-md ring-1 ring-white/50'
                           : 'border-white/10 opacity-50 hover:opacity-100'
                       }`}
                     >
@@ -352,7 +374,7 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                         src={item.src}
                         alt={item.title}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         sizes="60px"
                       />
                     </button>
@@ -654,22 +676,23 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
           >
             <div
               onClick={(e) => e.stopPropagation()}
-              className="relative max-w-md w-full rounded-2xl overflow-hidden border border-white/20 shadow-2xl bg-black"
+              className="relative max-w-md w-auto rounded-3xl overflow-hidden border border-white/20 shadow-2xl bg-black p-2 flex flex-col items-center justify-center"
             >
               <button
                 type="button"
                 onClick={() => setLightboxImg(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-black/70 text-white hover:bg-white/20 transition-colors"
+                className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-black/80 text-white hover:bg-white/20 transition-colors border border-white/20 cursor-pointer"
+                title="Close Lightbox"
               >
                 <FiX className="h-5 w-5" />
               </button>
-              <div className="relative aspect-[9/16] w-full">
+              <div className="relative h-[84vh] w-[88vw] max-w-sm flex items-center justify-center">
                 <Image
                   src={lightboxImg}
                   alt="Full-Resolution Screen Inspection"
                   fill
                   className="object-contain"
-                  sizes="(max-width: 768px) 100vw, 500px"
+                  sizes="(max-width: 768px) 100vw, 800px"
                   priority
                 />
               </div>

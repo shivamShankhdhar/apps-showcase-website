@@ -19,6 +19,7 @@ export interface AppItem {
   features?: Array<{ label: string; value: string }>;
   featured?: boolean;
   order?: number;
+  containsAds?: boolean;
 }
 
 export const defaultApps: AppItem[] = [
@@ -66,6 +67,7 @@ export const defaultApps: AppItem[] = [
     ],
     featured: true,
     order: 1,
+    containsAds: true,
   },
   {
     _id: 'app-ludo-binge',
@@ -113,5 +115,6 @@ export const defaultApps: AppItem[] = [
     ],
     featured: true,
     order: 2,
+    containsAds: true,
   },
 ];

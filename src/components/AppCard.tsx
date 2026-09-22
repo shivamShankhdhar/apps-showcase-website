@@ -111,6 +111,15 @@ export default function AppCard({ app }: AppCardProps) {
                 />
                 <span>{isTesting ? 'Closed Testing' : 'Production'}</span>
               </span>
+
+              {app.containsAds && (
+                <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
+                  <span className="text-[8px] font-bold px-1 rounded bg-amber-400/20 text-amber-300 uppercase">
+                    Ad
+                  </span>
+                  <span>Contains ads</span>
+                </span>
+              )}
             </div>
           </div>
 

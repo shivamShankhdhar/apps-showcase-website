@@ -204,13 +204,18 @@ export default function HomePage() {
 
           {/* Right: Device Screenshot Frame */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-[280px] sm:max-w-[310px] rounded-[32px] p-2 bg-[#12131c] border border-white/15 shadow-2xl">
-              <div className="relative rounded-[24px] overflow-hidden aspect-[9/16] bg-black">
+            <div className="relative w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl">
+              {/* Simulated Phone Speaker / Dynamic Island Indicator */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
+              </div>
+
+              <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
                 <Image
                   src={chessScreenshot}
                   alt="Chess Binge In-App Production Capture"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="320px"
                   priority
                 />
@@ -296,13 +301,18 @@ export default function HomePage() {
 
           {/* Right: Device Screenshot Frame */}
           <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-[280px] sm:max-w-[310px] rounded-[32px] p-2 bg-[#12131c] border border-white/15 shadow-2xl">
-              <div className="relative rounded-[24px] overflow-hidden aspect-[9/16] bg-black">
+            <div className="relative w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl">
+              {/* Simulated Phone Speaker / Dynamic Island Indicator */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
+              </div>
+
+              <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
                 <Image
                   src={ludoScreenshot}
                   alt="Ludo Binge In-App Production Capture"
                   fill
-                  className="object-cover"
+                  className="object-contain"
                   sizes="320px"
                   priority
                 />

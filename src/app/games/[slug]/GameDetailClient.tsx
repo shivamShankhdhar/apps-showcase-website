@@ -339,18 +339,23 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
             <div className="lg:col-span-5 flex justify-center">
               <div
                 onClick={() => setLightboxImg(currentScreenshots[activeScreenIndex].src)}
-                className="relative group cursor-pointer w-full max-w-[280px] sm:max-w-[310px] rounded-[36px] p-2 bg-gradient-to-b from-[#2a2c3d] via-[#1a1b26] to-[#0c0d14] border-2 border-red-500/30 shadow-2xl shadow-red-600/20 hover:scale-[1.02] transition-transform duration-300"
+                className="relative group cursor-pointer w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl hover:scale-[1.01] transition-transform"
               >
-                <div className="relative rounded-[28px] overflow-hidden aspect-[9/16] bg-black">
+                {/* Simulated Phone Speaker / Dynamic Island Indicator */}
+                <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
+                  <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
+                </div>
+
+                <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
                   <Image
                     src={currentScreenshots[activeScreenIndex].src}
                     alt={currentScreenshots[activeScreenIndex].title}
                     fill
-                    className="object-cover"
+                    className="object-contain"
                     sizes="(max-width: 768px) 100vw, 320px"
                     priority
                   />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-semibold backdrop-blur-xs">
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-semibold backdrop-blur-xs z-10">
                     <FiMaximize2 className="h-5 w-5 text-red-400" />
                     <span>Click to Expand</span>
                   </div>
@@ -412,7 +417,7 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
                       key={idx}
                       type="button"
                       onClick={() => setActiveScreenIndex(idx)}
-                      className={`relative aspect-[9/16] rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                      className={`relative aspect-[9/19.5] rounded-xl overflow-hidden border-2 transition-all cursor-pointer bg-black ${
                         activeScreenIndex === idx
                           ? 'border-red-500 scale-105 shadow-md shadow-red-600/30'
                           : 'border-white/10 opacity-60 hover:opacity-100'
@@ -422,7 +427,7 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
                         src={item.src}
                         alt={item.title}
                         fill
-                        className="object-cover"
+                        className="object-contain"
                         sizes="80px"
                       />
                     </button>
