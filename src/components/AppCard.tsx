@@ -25,8 +25,8 @@ export default function AppCard({ app }: AppCardProps) {
   const [isQrOpen, setIsQrOpen] = useState(false);
   const isGame = (app.category || '').toLowerCase() === 'games';
   const detailUrl = isGame
-    ? `/apps/games/${app.id || app.package}/details`
-    : `/apps/${app.id || app.package}/details`;
+    ? `/apps/games/${app.id || app.package}`
+    : `/apps/${app.id || app.package}`;
 
   const isTesting =
     app.status?.toLowerCase().includes('closed') ||

@@ -6,5 +6,5 @@ interface PageProps {
 
 export default async function GameDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  redirect(`/apps/games/${slug}/details`);
+  redirect(`/apps/games/${slug}`);
 }

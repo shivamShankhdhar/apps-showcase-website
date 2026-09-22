@@ -183,7 +183,7 @@ export default function HomePage() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
-                href="/apps/games/chess-binge/details"
+                href="/apps/games/chess-binge"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white text-black hover:bg-slate-200 transition-colors"
               >
                 <span>View Complete Product Overview</span>
@@ -275,7 +275,7 @@ export default function HomePage() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
-                href="/apps/games/ludo-binge/details"
+                href="/apps/games/ludo-binge"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white text-black hover:bg-slate-200 transition-colors"
               >
                 <span>View Complete Product Overview</span>

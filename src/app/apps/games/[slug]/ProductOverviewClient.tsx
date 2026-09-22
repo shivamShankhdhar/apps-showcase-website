@@ -4,37 +4,29 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import {
-  FiArrowLeft,
   FiZap,
   FiShield,
-  FiCheckCircle,
-  FiShare2,
   FiLayers,
   FiActivity,
   FiClock,
-  FiDownload,
   FiUsers,
   FiCpu,
   FiMaximize2,
   FiX,
-  FiStar,
   FiAward,
   FiBookOpen,
   FiChevronLeft,
   FiChevronRight,
   FiCheck,
   FiDatabase,
-  FiExternalLink,
 } from 'react-icons/fi';
-import { BsQrCode } from 'react-icons/bs';
-import { FaGooglePlay, FaDiceD6, FaChessKnight } from 'react-icons/fa6';
+import { FaDiceD6, FaChessKnight } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppItem } from '@/lib/defaultData';
-import QRCodeModal from '@/components/QRCodeModal';
 import { LudoBoardView } from '@/components/game-boards/LudoBoardView';
 import { ChessBoardView } from '@/components/game-boards/ChessBoardView';
 import { LudoBackdropArt } from '@/components/3d/LudoBackdropArt';
-import AppIcon from '@/components/ui/AppIcon';
+import PlatformQrCard from '@/components/PlatformQrCard';
 
 interface ProductOverviewClientProps {
   game: AppItem;
@@ -43,8 +35,6 @@ interface ProductOverviewClientProps {
 type TabKey = 'architecture' | 'mechanics' | 'cosmetics' | 'specifications';
 
 export default function ProductOverviewClient({ game }: ProductOverviewClientProps) {
-  const [isQrOpen, setIsQrOpen] = useState(false);
-  const [copied, setCopied] = useState(false);
   const [activeTab, setActiveTab] = useState<TabKey>('architecture');
   const [lastEvent, setLastEvent] = useState<string>('Board engine initialized • Ready for match');
   const [lightboxImg, setLightboxImg] = useState<string | null>(null);
@@ -57,10 +47,6 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
     game.status?.toLowerCase().includes('closed') ||
     game.status?.toLowerCase().includes('testing') ||
     game.rating?.toLowerCase().includes('coming');
-
-  const shareUrl =
-    game.playStoreUrl ||
-    (typeof window !== 'undefined' ? window.location.href : 'https://apps.shivamshankhdhar.dev');
 
   // Authentic screenshots
   const chessScreenshots = [
@@ -137,12 +123,6 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
   const currentScreenshots = isChess ? chessScreenshots : ludoScreenshots;
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
 
-  const handleCopyLink = () => {
-    navigator.clipboard.writeText(shareUrl);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
-
   const handleDiceRoll = (val: number) => {
     if (val === 6) {
       setLastEvent('Rolled a 6! 🌟 Token deployed from Citadel Yard. Extra turn awarded.');
@@ -153,7 +133,8 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
 
   return (
     <main className="min-h-screen bg-[#09090b] text-slate-100 py-10 px-4 sm:px-6 lg:px-8 bg-developer-grid bg-radial-gradient">
-      <div className="max-w-6xl mx-auto space-y-14">
+      <div className="max-w-6xl mx-auto space-y-12">
+        
         {/* Breadcrumb Navigation */}
         <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-slate-400">
           <Link href="/" className="hover:text-white transition-colors">
@@ -169,9 +150,18 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
           <span className="text-slate-200 font-semibold">{game.title}</span>
         </nav>
 
-        {/* Executive Product Header */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
-          <div className="lg:col-span-7 space-y-5">
+        {/* ========================================================================= */}
+        {/* HERO SECTION: LEFT QR CARD (SWITCHABLE TABS) & RIGHT PRODUCT DETAILS */}
+        {/* ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+          
+          {/* Left: QR Code Card with Android & iOS Tabs */}
+          <div className="lg:col-span-5 w-full">
+            <PlatformQrCard game={game} />
+          </div>
+
+          {/* Right: Product Narrative & Interactive Surface */}
+          <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
                 <span className="px-2.5 py-0.5 rounded bg-white/5 text-slate-300 border border-white/10 font-medium">
@@ -224,69 +214,44 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex flex-wrap items-center gap-3 pt-1">
-              <a
-                href={game.playStoreUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-white text-black font-semibold text-xs sm:text-sm hover:bg-slate-200 transition-colors cursor-pointer"
-              >
-                <FaGooglePlay className="h-4 w-4 text-emerald-600" />
-                <span>
-                  {isTesting ? 'Google Play Closed Testing' : 'Google Play Store Listing'}
-                </span>
-              </a>
-
-              <button
-                type="button"
-                onClick={() => setIsQrOpen(true)}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-white/10 bg-[#12131c] text-slate-200 text-xs sm:text-sm font-medium hover:bg-white/5 transition-colors cursor-pointer"
-              >
-                <BsQrCode className="h-4 w-4 text-slate-400" />
-                <span>Device QR</span>
-              </button>
-
-              <button
-                type="button"
-                onClick={handleCopyLink}
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-white/10 bg-[#12131c] text-slate-200 text-xs sm:text-sm font-medium hover:bg-white/5 transition-colors cursor-pointer"
-              >
-                {copied ? (
-                  <>
-                    <FiCheck className="h-4 w-4 text-emerald-400" />
-                    <span className="text-emerald-400">Copied!</span>
-                  </>
-                ) : (
-                  <>
-                    <FiShare2 className="h-4 w-4 text-slate-400" />
-                    <span>Share</span>
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-
-          {/* Right Interactive Board Bench */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-[340px] aspect-square rounded-2xl bg-[#12131c] border border-white/15 p-5 shadow-2xl overflow-hidden flex flex-col items-center justify-center">
-              <LudoBackdropArt />
-              <div className="relative z-10 w-full flex flex-col items-center gap-4">
-                {isChess ? (
-                  <ChessBoardView />
-                ) : (
-                  <LudoBoardView onDiceRoll={handleDiceRoll} />
-                )}
-                <div className="text-center px-3 py-1 rounded-lg bg-black/70 border border-white/10 text-[11px] text-slate-300 font-mono">
-                  {lastEvent}
+            {/* Interactive Board Surface Preview */}
+            <div className="rounded-2xl bg-[#12131c] border border-white/15 p-4 flex flex-col sm:flex-row items-center gap-5 shadow-xl">
+              <div className="relative w-36 h-36 rounded-xl bg-black/50 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center">
+                <LudoBackdropArt />
+                <div className="relative z-10 w-full flex items-center justify-center">
+                  {isChess ? (
+                    <div className="scale-75 origin-center">
+                      <ChessBoardView />
+                    </div>
+                  ) : (
+                    <div className="scale-75 origin-center">
+                      <LudoBoardView onDiceRoll={handleDiceRoll} />
+                    </div>
+                  )}
                 </div>
               </div>
+
+              <div className="space-y-1.5 text-center sm:text-left flex-1">
+                <div className="flex items-center justify-center sm:justify-start gap-2">
+                  <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <p className="text-xs font-bold text-white">Interactive State Preview</p>
+                </div>
+                <p className="text-[11px] text-slate-400 leading-relaxed">
+                  {isChess
+                    ? 'Evaluates legal moves, pins, and candidate branch choices on-device.'
+                    : 'Tap the dice to simulate turn events, citadel releases, and extra rolls.'}
+                </p>
+                <p className="text-[10px] font-mono text-amber-400 bg-black/40 px-2 py-1 rounded border border-white/10">
+                  {lastEvent}
+                </p>
+              </div>
             </div>
+
           </div>
         </div>
 
         {/* ========================================================================= */}
-        {/* MULTI-SCREENSHOT INSPECTION SUITE */}
+        {/* MULTI-SCREENSHOT INSPECTION SUITE (LOCATED DIRECTLY BELOW) */}
         {/* ========================================================================= */}
         <section className="space-y-6 pt-6 border-t border-white/10">
           <div className="space-y-1">
@@ -299,7 +264,7 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
             </p>
           </div>
 
-          <div className="rounded-2xl bg-[#12131c] border border-white/15 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+          <div className="rounded-3xl bg-[#12131c] border border-white/15 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             {/* Main Screenshot Preview */}
             <div className="lg:col-span-5 flex justify-center">
               <div
@@ -448,7 +413,7 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                   : 'text-slate-400 hover:text-white hover:bg-white/5'
               }`}
             >
-              <FiCheckCircle className="h-3.5 w-3.5" />
+              <FiCheck className="h-3.5 w-3.5" />
               <span>Build Specs & Policies</span>
             </button>
           </div>
@@ -712,14 +677,6 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
           </motion.div>
         )}
       </AnimatePresence>
-
-      {/* QR Modal */}
-      <QRCodeModal
-        isOpen={isQrOpen}
-        onClose={() => setIsQrOpen(false)}
-        url={shareUrl}
-        title={game.title}
-      />
     </main>
   );
 }
