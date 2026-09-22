@@ -3,12 +3,24 @@
 import React, { useState } from 'react';
 import { FiSearch, FiLayers, FiCpu } from 'react-icons/fi';
 import { FaGamepad } from 'react-icons/fa6';
+import { motion, AnimatePresence } from 'framer-motion';
 import { AppItem } from '@/lib/defaultData';
 import AppCard from '@/components/AppCard';
 
 interface AppsPageClientProps {
   initialApps: AppItem[];
 }
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.05,
+    },
+  },
+};
 
 export default function AppsPageClient({ initialApps }: AppsPageClientProps) {
   const [search, setSearch] = useState('');
@@ -52,19 +64,21 @@ export default function AppsPageClient({ initialApps }: AppsPageClientProps) {
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4 max-w-4xl mx-auto">
         <div className="flex flex-wrap items-center gap-2">
           {categories.map((cat) => (
-            <button
+            <motion.button
               key={cat.id}
+              whileTap={{ scale: 0.95 }}
+              whileHover={{ scale: 1.02 }}
               type="button"
               onClick={() => setSelectedCategory(cat.id)}
               className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
                 selectedCategory === cat.id
                   ? 'bg-white text-black font-semibold shadow-xs'
-                  : 'bg-[#12131c] text-slate-400 hover:text-white border border-white/10'
+                  : 'bg-[#12131c] text-slate-400 hover:text-white border border-white/10 hover:border-white/20'
               }`}
             >
               <span>{cat.label}</span>
               <span className="ml-1.5 text-[10px] opacity-70 font-mono">({cat.count})</span>
-            </button>
+            </motion.button>
           ))}
         </div>
 
@@ -76,65 +90,86 @@ export default function AppsPageClient({ initialApps }: AppsPageClientProps) {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             placeholder="Search by package or keyword..."
-            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#12131c] border border-white/15 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-white/40 transition-colors"
+            className="w-full pl-9 pr-3 py-2 rounded-xl bg-[#12131c] border border-white/15 text-white text-xs placeholder-slate-500 focus:outline-none focus:border-red-500/50 transition-colors"
           />
         </div>
       </div>
 
       {/* Categorized Displays */}
-      {filteredApps.length === 0 ? (
-        <div className="p-12 text-center rounded-2xl bg-[#12131c] border border-white/10 space-y-3 max-w-md mx-auto">
-          <FiLayers className="h-6 w-6 text-slate-500 mx-auto" />
-          <p className="text-slate-300 font-medium text-xs">
-            No software releases found matching &quot;{search}&quot;
-          </p>
-          <button
-            onClick={() => {
-              setSearch('');
-              setSelectedCategory('all');
-            }}
-            className="text-xs text-red-400 hover:underline font-semibold"
+      <AnimatePresence mode="wait">
+        {filteredApps.length === 0 ? (
+          <motion.div
+            key="empty"
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.25 }}
+            className="p-12 text-center rounded-2xl bg-[#12131c] border border-white/10 space-y-3 max-w-md mx-auto"
           >
-            Reset Filters
-          </button>
-        </div>
-      ) : (
-        <div className="space-y-12">
-          {/* Category: Games */}
-          {(selectedCategory === 'all' || selectedCategory === 'games') && gamesList.length > 0 && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
-                <FaGamepad className="h-4 w-4 text-slate-400" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300">
-                  Board & Strategy Games ({gamesList.length})
-                </h2>
+            <FiLayers className="h-6 w-6 text-slate-500 mx-auto" />
+            <p className="text-slate-300 font-medium text-xs">
+              No software releases found matching &quot;{search}&quot;
+            </p>
+            <button
+              onClick={() => {
+                setSearch('');
+                setSelectedCategory('all');
+              }}
+              className="text-xs text-red-400 hover:underline font-semibold cursor-pointer"
+            >
+              Reset Filters
+            </button>
+          </motion.div>
+        ) : (
+          <motion.div
+            key={`${selectedCategory}-${search}`}
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="space-y-12"
+          >
+            {/* Category: Games */}
+            {(selectedCategory === 'all' || selectedCategory === 'games') && gamesList.length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                  <FaGamepad className="h-4 w-4 text-red-400 animate-pulse" />
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300">
+                    Board & Strategy Games ({gamesList.length})
+                  </h2>
+                </div>
+                <motion.div
+                  variants={containerVariants}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                >
+                  {gamesList.map((app) => (
+                    <AppCard key={app.id || app.package} app={app} />
+                  ))}
+                </motion.div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {gamesList.map((app) => (
-                  <AppCard key={app.id || app.package} app={app} />
-                ))}
-              </div>
-            </div>
-          )}
+            )}
 
-          {/* Category: Other Applications */}
-          {(selectedCategory === 'all' || selectedCategory === 'apps') && otherAppsList.length > 0 && (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 border-b border-white/10 pb-2">
-                <FiCpu className="h-4 w-4 text-slate-400" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300">
-                  System Utilities & Applications ({otherAppsList.length})
-                </h2>
+            {/* Category: Other Applications */}
+            {(selectedCategory === 'all' || selectedCategory === 'apps') && otherAppsList.length > 0 && (
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 border-b border-white/10 pb-2">
+                  <FiCpu className="h-4 w-4 text-slate-400" />
+                  <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300">
+                    System Utilities & Applications ({otherAppsList.length})
+                  </h2>
+                </div>
+                <motion.div
+                  variants={containerVariants}
+                  className="grid grid-cols-1 md:grid-cols-2 gap-6"
+                >
+                  {otherAppsList.map((app) => (
+                    <AppCard key={app.id || app.package} app={app} />
+                  ))}
+                </motion.div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {otherAppsList.map((app) => (
-                  <AppCard key={app.id || app.package} app={app} />
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

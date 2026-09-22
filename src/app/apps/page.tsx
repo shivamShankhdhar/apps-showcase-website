@@ -25,7 +25,7 @@ async function getApps(): Promise<AppItem[]> {
 }
 
 export const metadata = {
-  title: 'Products Directory & Technical Index | Shivam Software Lab',
+  title: 'Apps Directory & Technical Index | Shivam Software Lab',
   description: 'Production Android releases, package signatures, and architectural documentation for Chess Binge and Ludo Binge.',
 };
 
@@ -41,7 +41,7 @@ export default async function AppsPage() {
             Home
           </Link>
           <span className="text-slate-600">/</span>
-          <span className="text-slate-200 font-medium">Products</span>
+          <span className="text-slate-200 font-medium">Apps</span>
         </nav>
 
         {/* Page Header */}
@@ -52,11 +52,11 @@ export default async function AppsPage() {
           </div>
 
           <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
-            Software Products & Engines
+            Software Apps & Engines
           </h1>
 
           <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-            Production Android software systems engineered with deterministic state recovery, local intelligence bots, and zero-telemetry client sandboxing. Select any product to inspect architectural specifications.
+            Production Android software systems engineered with deterministic state recovery, local intelligence bots, and zero-telemetry client sandboxing. Select any app to inspect architectural specifications.
           </p>
         </div>
 

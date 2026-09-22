@@ -54,7 +54,7 @@ export default function HomePage() {
                 href="/apps"
                 className="inline-flex items-center gap-2 px-5 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-red-600 hover:bg-red-500 text-white shadow-sm transition-all"
               >
-                <span>Browse Products Directory</span>
+                <span>Browse Apps Directory</span>
                 <FiArrowRight className="h-4 w-4" />
               </Link>
 
@@ -186,7 +186,7 @@ export default function HomePage() {
                 href="/apps/games/chess-binge"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white text-black hover:bg-slate-200 transition-colors"
               >
-                <span>View Complete Product Overview</span>
+                <span>View Complete App Overview</span>
                 <FiArrowRight className="h-4 w-4" />
               </Link>
 
@@ -225,11 +225,32 @@ export default function HomePage() {
         </div>
 
         {/* ===================================================================== */}
-        {/* PRODUCT 2: LUDO BINGE (Summary Left, Screenshot Right) */}
+        {/* PRODUCT 2: LUDO BINGE (ALTERNATING: Screenshot Left, Summary Right) */}
         {/* ===================================================================== */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center pt-8 border-t border-white/10">
-          {/* Left: Summary & Technical Highlights */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left: Device Screenshot Frame */}
+          <div className="lg:col-span-5 flex justify-center order-2 lg:order-1">
+            <div className="relative w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl">
+              {/* Simulated Phone Speaker / Dynamic Island Indicator */}
+              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
+                <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
+              </div>
+
+              <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
+                <Image
+                  src={ludoScreenshot}
+                  alt="Ludo Binge In-App Production Capture"
+                  fill
+                  className="object-contain"
+                  sizes="320px"
+                  priority
+                />
+              </div>
+            </div>
+          </div>
+
+          {/* Right: Summary & Technical Highlights */}
+          <div className="lg:col-span-7 space-y-6 order-1 lg:order-2">
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-xs font-mono">
                 <span className="px-2.5 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20 font-semibold">
@@ -283,7 +304,7 @@ export default function HomePage() {
                 href="/apps/games/ludo-binge"
                 className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-white text-black hover:bg-slate-200 transition-colors"
               >
-                <span>View Complete Product Overview</span>
+                <span>View Complete App Overview</span>
                 <FiArrowRight className="h-4 w-4" />
               </Link>
 
@@ -298,27 +319,6 @@ export default function HomePage() {
               </a>
             </div>
           </div>
-
-          {/* Right: Device Screenshot Frame */}
-          <div className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl">
-              {/* Simulated Phone Speaker / Dynamic Island Indicator */}
-              <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
-                <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
-              </div>
-
-              <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
-                <Image
-                  src={ludoScreenshot}
-                  alt="Ludo Binge In-App Production Capture"
-                  fill
-                  className="object-contain"
-                  sizes="320px"
-                  priority
-                />
-              </div>
-            </div>
-          </div>
         </div>
 
       </section>
@@ -328,12 +328,12 @@ export default function HomePage() {
       {/* ========================================================================= */}
       <section id="architecture" className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-12 border-t border-white/10">
         <div className="max-w-3xl space-y-2">
-          <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Engineering Philosophy</span>
-          <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
-            Architectural Standards & Principles
+          <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Compliance & Runtime</span>
+          <h2 className="text-2xl sm:text-4xl font-black text-white tracking-tight">
+            High-Performance Android Engineering
           </h2>
           <p className="text-xs sm:text-sm text-slate-400 leading-relaxed">
-            Our codebase is built on principles of client autonomy, predictable battery utilization, and strict avoidance of exploitative monetization patterns.
+            Eliminating network bloat, telemetry dependencies, and cloud failure points through deterministic client execution.
           </p>
         </div>
 
@@ -396,7 +396,7 @@ export default function HomePage() {
             href="/apps"
             className="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-xs sm:text-sm font-semibold bg-red-600 hover:bg-red-500 text-white transition-colors shrink-0"
           >
-            <span>Open Products Directory</span>
+            <span>Open Apps Directory</span>
             <FiArrowRight className="h-4 w-4" />
           </Link>
         </div>

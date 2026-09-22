@@ -94,7 +94,7 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
             </Link>
             <span className="text-slate-600">/</span>
             <Link href="/apps" className="hover:text-white transition-colors">
-              Products
+              Apps
             </Link>
             <span className="text-slate-600">/</span>
             <Link href={productOverviewUrl} className="hover:text-white transition-colors">
@@ -109,7 +109,7 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
             className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl border border-white/10 bg-[#12131c] text-slate-300 hover:text-white hover:border-red-500/40 transition-all font-mono text-xs"
           >
             <FiArrowLeft className="h-3.5 w-3.5 text-red-400" />
-            <span>Product Overview</span>
+            <span>App Overview</span>
           </Link>
         </div>
 
@@ -561,7 +561,7 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
               className="inline-flex items-center gap-1.5 font-semibold text-red-400 hover:underline"
             >
               <FiArrowLeft className="h-3.5 w-3.5" />
-              <span>Back to {appTitle} Product Overview</span>
+              <span>Back to {appTitle} App Overview</span>
             </Link>
           </div>
         </footer>

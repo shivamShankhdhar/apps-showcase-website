@@ -52,7 +52,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const game = await getGame(slug);
 
   if (!game) {
-    return { title: 'Product Not Found | Software Systems Directory' };
+    return { title: 'App Not Found | Software Systems Directory' };
   }
 
   return {

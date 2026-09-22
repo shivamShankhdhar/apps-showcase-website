@@ -10,7 +10,7 @@ export default function Header() {
   const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
 
   const navLinks = [
-    { href: '/apps', label: 'Products', icon: FiGrid },
+    { href: '/apps', label: 'Apps', icon: FiGrid },
     { href: '/#architecture', label: 'Architecture', icon: FiCpu },
     { href: '/privacy-policy', label: 'Privacy & Compliance', icon: FiShield },
   ];
@@ -62,19 +62,11 @@ export default function Header() {
               href={portfolioUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 transition-colors"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 hover:border-red-500/40 transition-all shadow-xs"
             >
-              <span>Portfolio</span>
-              <FiExternalLink className="h-3 w-3 text-slate-400" />
+              <span>Developer Portfolio</span>
+              <FiExternalLink className="h-3 w-3 text-red-400" />
             </a>
-
-            <Link
-              href="/apps"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold bg-red-600 hover:bg-red-500 text-white shadow-sm hover:shadow-red-600/20 transition-all"
-            >
-              <FiGrid className="h-3.5 w-3.5" />
-              <span>Products Directory</span>
-            </Link>
 
             {/* Mobile Toggle */}
             <button

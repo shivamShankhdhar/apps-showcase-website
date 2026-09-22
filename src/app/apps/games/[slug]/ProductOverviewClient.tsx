@@ -144,7 +144,7 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
           </Link>
           <span className="text-slate-600">/</span>
           <Link href="/apps" className="hover:text-white transition-colors">
-            Products
+            Apps
           </Link>
           <span className="text-slate-600">/</span>
           <span>Games</span>
