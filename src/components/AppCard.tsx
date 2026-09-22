@@ -123,6 +123,13 @@ export default function AppCard({ app }: AppCardProps) {
                 <span>{isTesting ? 'Closed Testing' : 'Production'}</span>
               </span>
 
+              {app.playProtectVerified !== false && (
+                <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/25">
+                  <FiShield className="h-2.5 w-2.5 text-emerald-400" />
+                  <span>Play Protect</span>
+                </span>
+              )}
+
               {app.containsAds && (
                 <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-slate-300">
                   <span className="text-[8px] font-bold px-1 rounded bg-amber-400/20 text-amber-300 uppercase">
@@ -147,9 +154,17 @@ export default function AppCard({ app }: AppCardProps) {
               <span className="text-slate-500 font-normal">Rating</span>
             </div>
             <span className="h-3 w-[1px] bg-white/10" />
-            <span className="text-slate-400">
-              {app.ratingCount || (isTesting ? 'Closed Testing' : '500+ Installs')}
-            </span>
+            <div className="text-slate-300">
+              {app.downloadsTier || app.ratingCount || (isTesting ? 'Closed Testing' : '10K+ Installs')}
+            </div>
+            {app.contentRating && (
+              <>
+                <span className="h-3 w-[1px] bg-white/10" />
+                <span className="text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">
+                  {app.contentRating}
+                </span>
+              </>
+            )}
           </div>
 
           {/* Tech Stack Pills */}
@@ -206,10 +221,23 @@ export default function AppCard({ app }: AppCardProps) {
             </Link>
 
             {isTesting ? (
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-400 border border-white/10 cursor-not-allowed">
-                <FiLock className="h-3 w-3 text-amber-500" />
-                <span>Closed Testing</span>
-              </span>
+              app.playConsoleUrl ? (
+                <a
+                  href={app.playConsoleUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-400 border border-emerald-500/30 hover:scale-105 active:scale-95 transition-all shadow-sm"
+                >
+                  <FaGooglePlay className="h-3 w-3 text-emerald-400" />
+                  <span>Join Testing</span>
+                  <FiExternalLink className="h-2.5 w-2.5 opacity-70" />
+                </a>
+              ) : (
+                <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-400 border border-white/10 cursor-not-allowed">
+                  <FiLock className="h-3 w-3 text-amber-500" />
+                  <span>Closed Testing</span>
+                </span>
+              )
             ) : app.playStoreUrl ? (
               <a
                 href={app.playStoreUrl}

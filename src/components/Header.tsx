@@ -85,7 +85,7 @@ export default function Header({ initialPortfolioUrl }: HeaderProps = {}) {
               href={portfolioUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 hover:border-red-500/40 transition-all shadow-xs"
+              className="hidden md:inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 hover:border-red-500/40 transition-all shadow-xs"
             >
               <span>Developer Portfolio</span>
               <FiExternalLink className="h-3 w-3 text-red-400" />
@@ -126,15 +126,6 @@ export default function Header({ initialPortfolioUrl }: HeaderProps = {}) {
                 </Link>
               );
             })}
-            <a
-              href={portfolioUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center justify-between px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:bg-white/5 hover:text-white transition-colors"
-            >
-              <span>Developer Portfolio</span>
-              <FiExternalLink className="h-3.5 w-3.5" />
-            </a>
           </motion.div>
         )}
       </AnimatePresence>

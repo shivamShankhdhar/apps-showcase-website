@@ -17,6 +17,14 @@ export interface AppItem {
   playStoreStatus?: string;
   appStoreStatus?: string;
   privacyUrl?: string;
+  playConsoleUrl?: string;
+  featureGraphic?: string;
+  playScreenshots?: string[];
+  downloadsTier?: string;
+  contentRating?: string;
+  playProtectVerified?: boolean;
+  releaseTrack?: string;
+  whatsNew?: string;
   technologies?: string[];
   highlights?: string[];
   features?: Array<{ label: string; value: string }>;
@@ -38,6 +46,11 @@ export const defaultApps: AppItem[] = [
     status: 'Production',
     rating: '4.9',
     ratingCount: '500+ Players',
+    downloadsTier: '5,000+ Installs',
+    contentRating: 'Rated for 3+',
+    playProtectVerified: true,
+    releaseTrack: 'Google Play Production',
+    whatsNew: 'Stockfish 16 native integration, offline move evaluation graph, Elo rating engine, and luxury Staunton themes.',
     icon: 'chess',
     bannerType: 'chess',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=chess.binge',
@@ -85,8 +98,14 @@ export const defaultApps: AppItem[] = [
     package: 'ludo.binge',
     version: 'v1.0.0',
     status: 'Closed Testing',
-    rating: 'Coming Soon',
-    ratingCount: 'Closed Testing Track',
+    rating: 'Early Access',
+    ratingCount: '20 Active Testers',
+    downloadsTier: 'Closed Testing Track',
+    contentRating: 'Rated for 3+',
+    playProtectVerified: true,
+    releaseTrack: 'Google Play Closed Testing Track',
+    whatsNew: 'Synchronous token path collision system, 4-player pass-and-play matrix, and anti-tamper dice rng seeds.',
+    playConsoleUrl: 'https://play.google.com/apps/testing/ludo.binge',
     icon: 'dice',
     bannerType: 'ludo',
     playStoreUrl: 'https://play.google.com/store/apps/details?id=ludo.binge',

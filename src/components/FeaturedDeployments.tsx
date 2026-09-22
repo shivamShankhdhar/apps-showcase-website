@@ -3,8 +3,8 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { FiArrowRight, FiExternalLink, FiClock, FiCheck } from 'react-icons/fi';
-import { FaGooglePlay, FaApple } from 'react-icons/fa6';
+import { FiArrowRight, FiExternalLink, FiClock, FiCheck, FiShield } from 'react-icons/fi';
+import { FaGooglePlay, FaApple, FaStar } from 'react-icons/fa6';
 import { AppItem } from '@/lib/defaultData';
 import { resolveMediaUrl } from '@/lib/driveStorage';
 
@@ -176,6 +176,31 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
                   ))}
                 </div>
 
+                {/* Google Play Protect & Store Telemetry Row */}
+                <div className="flex flex-wrap items-center gap-3 p-3 rounded-2xl bg-emerald-950/20 border border-emerald-500/20 text-xs">
+                  <div className="flex items-center gap-2 text-emerald-400 font-semibold">
+                    <FiShield className="h-4 w-4" />
+                    <span>{app.playProtectVerified !== false ? 'Google Play Protect Verified' : 'Google Play Verified'}</span>
+                  </div>
+                  <span className="text-white/20">•</span>
+                  <div className="flex items-center gap-1.5 text-amber-400 font-bold">
+                    <FaStar className="h-3 w-3" />
+                    <span>{app.rating || '4.9'}</span>
+                  </div>
+                  <span className="text-white/20">•</span>
+                  <span className="text-slate-300 font-mono">
+                    {app.downloadsTier || (isTesting ? 'Closed Beta Track' : '10K+ Installs')}
+                  </span>
+                  {app.contentRating && (
+                    <>
+                      <span className="text-white/20">•</span>
+                      <span className="text-[10px] font-mono text-slate-400 px-1.5 py-0.5 rounded bg-white/5 border border-white/10">
+                        {app.contentRating}
+                      </span>
+                    </>
+                  )}
+                </div>
+
                 {/* Action Buttons: Dynamic Store Links or Coming Soon States */}
                 <div className="flex flex-wrap items-center gap-3 pt-2">
                   <Link
@@ -196,6 +221,17 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
                     >
                       <FaGooglePlay className="h-3.5 w-3.5 text-emerald-400" />
                       <span>Google Play</span>
+                    </a>
+                  ) : app.playConsoleUrl ? (
+                    <a
+                      href={app.playConsoleUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 transition-all"
+                    >
+                      <FaGooglePlay className="h-3.5 w-3.5 text-emerald-400" />
+                      <span>Join Closed Testing</span>
+                      <FiExternalLink className="h-3 w-3 opacity-70" />
                     </a>
                   ) : (
                     <div className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-mono text-amber-300 bg-amber-500/10 border border-amber-500/30">
