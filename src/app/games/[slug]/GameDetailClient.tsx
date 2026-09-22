@@ -19,6 +19,9 @@ import { FaGamepad, FaGooglePlay, FaStar } from 'react-icons/fa6';
 import { motion } from 'framer-motion';
 import { AppItem } from '@/lib/defaultData';
 import QRCodeModal from '@/components/QRCodeModal';
+import { LudoBoardView } from '@/components/game-boards/LudoBoardView';
+import { ChessBoardView } from '@/components/game-boards/ChessBoardView';
+import { LudoBackdropArt } from '@/components/3d/LudoBackdropArt';
 
 interface GameDetailClientProps {
   game: AppItem;
@@ -222,110 +225,16 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
               </div>
 
               {isChess ? (
-                /* Chess Interactive Board Simulation */
+                /* Chess Authentic Board View */
                 <div className="space-y-4">
-                  <div className="p-2.5 rounded-2xl bg-[#161722] border border-red-500/20 shadow-inner">
-                    <div className="grid grid-cols-8 gap-0.5 aspect-square rounded-xl overflow-hidden border border-black/40 text-[12px] font-bold">
-                      {Array.from({ length: 64 }).map((_, i) => {
-                        const row = Math.floor(i / 8);
-                        const col = i % 8;
-                        const isDark = (row + col) % 2 === 1;
-                        const isSelected = i === 52;
-                        const isTarget = i === 36;
-
-                        let piece = '';
-                        if (i === 4) piece = '♚';
-                        if (i === 60) piece = '♔';
-                        if (i === 3) piece = '♛';
-                        if (i === 59) piece = '♕';
-                        if (i === 36) piece = '♙';
-                        if (i === 18) piece = '♞';
-                        if (i === 21) piece = '♟';
-
-                        return (
-                          <div
-                            key={i}
-                            className={`flex items-center justify-center ${
-                              isSelected
-                                ? 'bg-amber-400/80 text-black'
-                                : isTarget
-                                ? 'bg-red-600 text-white animate-pulse'
-                                : isDark
-                                ? 'bg-[#2a2024] text-slate-300'
-                                : 'bg-[#402a32] text-slate-100'
-                            }`}
-                          >
-                            <span>{piece}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-2xl bg-black/50 border border-white/5 space-y-2 text-xs">
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Engine Analysis:</span>
-                      <span className="text-red-400 font-mono font-bold">Stockfish Depth 18</span>
-                    </div>
-                    <div className="flex justify-between">
-                      <span className="text-slate-400">Position Evaluation:</span>
-                      <span className="text-emerald-400 font-mono font-bold">+1.4 (White Advantage)</span>
-                    </div>
-                  </div>
+                  <ChessBoardView />
                 </div>
               ) : (
-                /* Ludo Interactive Board Simulation with Dice Roll */
-                <div className="space-y-4">
-                  <div className="p-3 rounded-2xl bg-[#141520] border border-red-500/20 aspect-square flex flex-col items-center justify-center relative overflow-hidden">
-                    <div className="grid grid-cols-3 grid-rows-3 gap-1.5 w-full h-full">
-                      <div className="rounded-xl bg-red-600/30 border border-red-500/40 p-2 flex items-center justify-center font-bold text-red-400 text-xs">
-                        🔴 Red Base
-                      </div>
-                      <div className="rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[11px] text-slate-400">
-                        ⬆ Track
-                      </div>
-                      <div className="rounded-xl bg-emerald-600/30 border border-emerald-500/40 p-2 flex items-center justify-center font-bold text-emerald-400 text-xs">
-                        🟢 Green Base
-                      </div>
-                      <div className="rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[11px] text-slate-400">
-                        ⬅ Track
-                      </div>
-                      <div className="rounded-xl bg-gradient-to-tr from-red-600 via-amber-500 to-emerald-500 flex items-center justify-center text-xs font-black text-white shadow-md">
-                        ⭐ HOME
-                      </div>
-                      <div className="rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[11px] text-slate-400">
-                        Track ➡
-                      </div>
-                      <div className="rounded-xl bg-blue-600/30 border border-blue-500/40 p-2 flex items-center justify-center font-bold text-blue-400 text-xs">
-                        🔵 Blue Base
-                      </div>
-                      <div className="rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-[11px] text-slate-400">
-                        ⬇ Track
-                      </div>
-                      <div className="rounded-xl bg-amber-500/30 border border-amber-500/40 p-2 flex items-center justify-center font-bold text-amber-400 text-xs">
-                        🟡 Yellow Base
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="p-3 rounded-2xl bg-black/50 border border-white/5 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                      <button
-                        onClick={handleRollDice}
-                        className={`h-10 w-10 rounded-xl bg-gradient-to-tr from-red-600 to-rose-500 text-white font-black text-xl flex items-center justify-center shadow-lg transition-transform ${
-                          isRolling ? 'rotate-180 scale-110' : 'hover:scale-105'
-                        }`}
-                      >
-                        {diceNumber}
-                      </button>
-                      <div>
-                        <p className="text-xs font-bold text-white">Interactive Dice</p>
-                        <p className="text-[10px] text-slate-400">Click dice to test physics</p>
-                      </div>
-                    </div>
-                    <span className="text-xs font-bold text-red-400 font-mono">
-                      {isRolling ? 'Rolling...' : `Rolled ${diceNumber}!`}
-                    </span>
+                /* Ludo Authentic Board View with Celestial Backdrop */
+                <div className="relative flex flex-col items-center justify-center p-2">
+                  <LudoBackdropArt />
+                  <div className="relative z-10 w-full">
+                    <LudoBoardView onDiceRoll={(val) => setDiceNumber(val)} />
                   </div>
                 </div>
               )}
