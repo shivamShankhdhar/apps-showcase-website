@@ -154,28 +154,20 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
   return (
     <main className="min-h-screen bg-[#09090b] text-slate-100 py-10 px-4 sm:px-6 lg:px-8 bg-developer-grid bg-radial-gradient">
       <div className="max-w-6xl mx-auto space-y-14">
-        {/* Navigation Breadcrumbs */}
-        <div className="flex flex-wrap items-center justify-between gap-4 text-xs">
-          <Link
-            href="/apps"
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 bg-[#12131c] text-slate-300 hover:text-white transition-colors"
-          >
-            <FiArrowLeft className="h-3.5 w-3.5 text-slate-400" />
-            <span>Return to Products Directory</span>
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <Link href="/" className="hover:text-white transition-colors">
+            Home
           </Link>
-
-          <div className="flex items-center gap-2 text-slate-400 font-mono text-[11px]">
-            <Link href="/apps" className="hover:text-white transition-colors">
-              Products
-            </Link>
-            <span>/</span>
-            <span>Games</span>
-            <span>/</span>
-            <span className="text-white font-semibold">{game.title}</span>
-            <span>/</span>
-            <span className="text-red-400">Overview</span>
-          </div>
-        </div>
+          <span className="text-slate-600">/</span>
+          <Link href="/apps" className="hover:text-white transition-colors">
+            Products
+          </Link>
+          <span className="text-slate-600">/</span>
+          <span>Games</span>
+          <span className="text-slate-600">/</span>
+          <span className="text-slate-200 font-semibold">{game.title}</span>
+        </nav>
 
         {/* Executive Product Header */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">

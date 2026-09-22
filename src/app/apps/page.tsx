@@ -35,20 +35,14 @@ export default async function AppsPage() {
   return (
     <main className="min-h-screen bg-[#09090b] text-slate-100 py-12 px-4 sm:px-6 lg:px-8 bg-developer-grid bg-radial-gradient">
       <div className="max-w-7xl mx-auto space-y-12">
-        {/* Navigation Breadcrumb */}
-        <div className="flex items-center justify-between gap-4 text-xs">
-          <Link
-            href="/"
-            className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg border border-white/10 bg-[#12131c] text-slate-300 hover:text-white transition-colors"
-          >
-            <FiArrowLeft className="h-3.5 w-3.5 text-slate-400" />
-            <span>Return to Overview</span>
+        {/* Breadcrumb Navigation */}
+        <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-xs font-mono text-slate-400">
+          <Link href="/" className="hover:text-white transition-colors">
+            Home
           </Link>
-
-          <span className="text-slate-500 font-mono text-[11px]">
-            Index of Active Software Builds
-          </span>
-        </div>
+          <span className="text-slate-600">/</span>
+          <span className="text-slate-200 font-medium">Products</span>
+        </nav>
 
         {/* Page Header */}
         <div className="space-y-3 max-w-3xl">
