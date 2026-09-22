@@ -24,10 +24,8 @@ async function getApps(): Promise<AppItem[]> {
   return defaultApps;
 }
 
-export const metadata = {
-  title: 'Apps Directory & Technical Index | Shivam Software Lab',
-  description: 'Production Android releases, package signatures, and architectural documentation for Chess Binge and Ludo Binge.',
-};
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function AppsPage() {
   const apps = await getApps();

@@ -2,6 +2,12 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import TopProgressBar from '@/components/ui/TopProgressBar';
+import connectDB, { isDbConfigured } from '@/lib/db';
+import Profile from '@/models/Profile';
+
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Shivam Apps Hub - Production Android Games & Applications',
@@ -28,17 +34,31 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  let portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
+  try {
+    if (isDbConfigured()) {
+      await connectDB();
+      const profile = await Profile.findOne().lean();
+      if (profile?.portfolioUrl) {
+        portfolioUrl = profile.portfolioUrl;
+      }
+    }
+  } catch (err) {
+    console.error('Error fetching profile in RootLayout:', err);
+  }
+
   return (
     <html lang="en" className="dark scroll-smooth">
       <body className="min-h-screen bg-[#09090b] text-slate-100 antialiased selection:bg-red-500 selection:text-white flex flex-col justify-between">
-        <Header />
+        <TopProgressBar />
+        <Header initialPortfolioUrl={portfolioUrl} />
         <div className="flex-grow pt-16">{children}</div>
-        <Footer />
+        <Footer initialPortfolioUrl={portfolioUrl} />
       </body>
     </html>
   );

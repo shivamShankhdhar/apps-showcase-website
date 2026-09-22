@@ -22,19 +22,84 @@ import {
   FiArrowRight,
   FiExternalLink,
 } from 'react-icons/fi';
-import { FaDiceD6, FaChessKnight } from 'react-icons/fa6';
+import { FaDiceD6, FaChessKnight, FaGooglePlay, FaApple, FaAndroid } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AppItem } from '@/lib/defaultData';
 import { LudoBoardView } from '@/components/game-boards/LudoBoardView';
 import { ChessBoardView } from '@/components/game-boards/ChessBoardView';
 import { LudoBackdropArt } from '@/components/3d/LudoBackdropArt';
 import PlatformQrCard from '@/components/PlatformQrCard';
+import ImageWithSkeleton from '@/components/ui/ImageWithSkeleton';
 
 interface ProductOverviewClientProps {
   game: AppItem;
 }
 
 type TabKey = 'architecture' | 'mechanics' | 'cosmetics' | 'specifications';
+
+type AtmosphereColor = 'cyber' | 'emerald' | 'crimson' | 'violet' | 'amber';
+
+const atmospherePresets: {
+  id: AtmosphereColor;
+  label: string;
+  dotColor: string;
+  glowAura: string;
+  phoneBorder: string;
+  textColor: string;
+  bgChip: string;
+  ring: string;
+}[] = [
+  {
+    id: 'cyber',
+    label: 'Cyber Cyan',
+    dotColor: 'bg-cyan-400',
+    glowAura: 'from-cyan-500/35 via-blue-600/25 to-indigo-700/20',
+    phoneBorder: 'group-hover:border-cyan-400/50',
+    textColor: 'text-cyan-400',
+    bgChip: 'bg-cyan-500/10 border-cyan-500/30 text-cyan-300',
+    ring: 'ring-cyan-500/60',
+  },
+  {
+    id: 'emerald',
+    label: 'Neon Emerald',
+    dotColor: 'bg-emerald-400',
+    glowAura: 'from-emerald-500/35 via-teal-600/25 to-lime-600/20',
+    phoneBorder: 'group-hover:border-emerald-400/50',
+    textColor: 'text-emerald-400',
+    bgChip: 'bg-emerald-500/10 border-emerald-500/30 text-emerald-300',
+    ring: 'ring-emerald-500/60',
+  },
+  {
+    id: 'crimson',
+    label: 'Crimson Fury',
+    dotColor: 'bg-rose-500',
+    glowAura: 'from-red-600/40 via-rose-600/25 to-amber-500/20',
+    phoneBorder: 'group-hover:border-rose-400/50',
+    textColor: 'text-rose-400',
+    bgChip: 'bg-rose-500/10 border-rose-500/30 text-rose-300',
+    ring: 'ring-rose-500/60',
+  },
+  {
+    id: 'violet',
+    label: 'Royal Violet',
+    dotColor: 'bg-purple-400',
+    glowAura: 'from-purple-600/35 via-violet-600/25 to-fuchsia-600/20',
+    phoneBorder: 'group-hover:border-purple-400/50',
+    textColor: 'text-purple-400',
+    bgChip: 'bg-purple-500/10 border-purple-500/30 text-purple-300',
+    ring: 'ring-purple-500/60',
+  },
+  {
+    id: 'amber',
+    label: 'Sunfire Gold',
+    dotColor: 'bg-amber-400',
+    glowAura: 'from-amber-500/35 via-yellow-600/25 to-orange-600/20',
+    phoneBorder: 'group-hover:border-amber-400/50',
+    textColor: 'text-amber-400',
+    bgChip: 'bg-amber-500/10 border-amber-500/30 text-amber-300',
+    ring: 'ring-amber-500/60',
+  },
+];
 
 export default function ProductOverviewClient({ game }: ProductOverviewClientProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('architecture');
@@ -45,10 +110,20 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
     game.title.toLowerCase().includes('chess') ||
     game.package.toLowerCase().includes('chess');
 
+  const [atmosphere, setAtmosphere] = useState<AtmosphereColor>(isChess ? 'cyber' : 'emerald');
+  const currentAtmosphere = atmospherePresets.find((a) => a.id === atmosphere) || atmospherePresets[0];
+
   const isTesting =
     game.status?.toLowerCase().includes('closed') ||
     game.status?.toLowerCase().includes('testing') ||
     game.rating?.toLowerCase().includes('coming');
+
+  const hasAndroidLink = Boolean(
+    game.playStoreUrl && game.playStoreUrl.trim().startsWith('http')
+  );
+  const hasIosLink = Boolean(
+    game.appStoreUrl && game.appStoreUrl.trim().startsWith('http')
+  );
 
   // Authentic screenshots
   const chessScreenshots = [
@@ -202,37 +277,119 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
               </p>
             </div>
 
-            {/* Architecture Spec Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 py-3 border-y border-white/10 text-xs">
-              <div>
-                <p className="text-[10px] text-slate-400 uppercase font-mono">Platform Target</p>
-                <p className="text-xs font-bold text-white font-mono mt-0.5">Android 8.0+ (API 26)</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-400 uppercase font-mono">Network Scope</p>
-                <p className="text-xs font-bold text-emerald-400 mt-0.5">100% Offline Capable</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-400 uppercase font-mono">Multiplayer</p>
-                <p className="text-xs font-bold text-white mt-0.5">Pass & Play (Single Device)</p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-400 uppercase font-mono">Monetization</p>
-                <p className="text-xs font-bold text-amber-300 mt-0.5">
-                  {game.containsAds ? 'Contains Ads' : 'Ad-Free'}
-                </p>
-              </div>
-              <div>
-                <p className="text-[10px] text-slate-400 uppercase font-mono">Privacy Track</p>
-                <Link
-                  href={`/apps/games/${game.id || game.package}/privacy-policy`}
-                  className="text-xs font-bold text-slate-300 hover:text-red-400 mt-0.5 inline-flex items-center gap-1 transition-colors"
+            {/* Direct Store Action Bar (Dynamic From Admin) */}
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              {hasAndroidLink ? (
+                <a
+                  href={game.playStoreUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-lg shadow-red-600/25 transition-all"
                 >
-                  <span>Zero Identity Scrape</span>
-                  <FiExternalLink className="h-2.5 w-2.5 text-slate-500" />
-                </Link>
-              </div>
+                  <FaGooglePlay className="h-4 w-4" />
+                  <div className="text-left">
+                    <p className="text-[9px] uppercase font-mono tracking-wider opacity-80 leading-none">Get on</p>
+                    <p className="text-xs font-bold leading-tight">Google Play</p>
+                  </div>
+                  {game.rating && (
+                    <span className="ml-1 text-[10px] px-1.5 py-0.5 rounded bg-black/30 font-mono text-amber-300">
+                      ★ {game.rating}
+                    </span>
+                  )}
+                </a>
+              ) : (
+                <a
+                  href="#coming-soon"
+                  className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all"
+                >
+                  <FaGooglePlay className="h-4 w-4 text-emerald-400" />
+                  <div className="text-left">
+                    <p className="text-[9px] uppercase font-mono tracking-wider text-slate-400 leading-none">Android Track</p>
+                    <p className="text-xs font-bold leading-tight">{game.playStoreStatus || 'Coming Soon'}</p>
+                  </div>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">
+                    Soon
+                  </span>
+                </a>
+              )}
+
+              {hasIosLink ? (
+                <a
+                  href={game.appStoreUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-white hover:bg-slate-200 text-black shadow-lg transition-all"
+                >
+                  <FaApple className="h-4 w-4" />
+                  <div className="text-left">
+                    <p className="text-[9px] uppercase font-mono tracking-wider opacity-80 leading-none">Download on</p>
+                    <p className="text-xs font-bold leading-tight">Apple App Store</p>
+                  </div>
+                </a>
+              ) : (
+                <a
+                  href="#coming-soon"
+                  className="inline-flex items-center gap-2.5 px-4 py-2.5 rounded-xl text-xs font-bold bg-white/5 hover:bg-white/10 text-slate-300 border border-white/10 transition-all"
+                >
+                  <FaApple className="h-4 w-4 text-slate-200" />
+                  <div className="text-left">
+                    <p className="text-[9px] uppercase font-mono tracking-wider text-slate-400 leading-none">iOS Status</p>
+                    <p className="text-xs font-bold leading-tight">{game.appStoreStatus || 'Coming Soon'}</p>
+                  </div>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-500/20 text-amber-300 font-mono">
+                    Soon
+                  </span>
+                </a>
+              )}
+
+              <Link
+                href={`/apps/games/${game.id || game.package}/privacy-policy`}
+                className="inline-flex items-center gap-1.5 px-3.5 py-2.5 rounded-xl text-xs font-semibold bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white border border-white/10 transition-colors"
+              >
+                <FiShield className="h-3.5 w-3.5 text-slate-400" />
+                <span>Data Safety</span>
+              </Link>
             </div>
+
+            {/* Dynamic Architecture Spec Grid (Controlled via Admin) */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-3 py-3 border-y border-white/10 text-xs">
+              {(game.features && game.features.length > 0
+                ? game.features.slice(0, 5)
+                : [
+                    { label: 'Platform Target', value: 'Android 8.0+ (API 26)' },
+                    { label: 'Network Scope', value: '100% Offline Capable' },
+                    { label: 'Multiplayer', value: 'Pass & Play (Single Device)' },
+                    { label: 'Monetization', value: game.containsAds ? 'Contains Ads' : 'Ad-Free' },
+                    { label: 'Privacy Track', value: 'Zero Identity Scrape' },
+                  ]
+              ).map((spec, i) => (
+                <div key={i}>
+                  <p className="text-[10px] text-slate-400 uppercase font-mono">{spec.label}</p>
+                  <p className="text-xs font-bold text-white font-mono mt-0.5">{spec.value}</p>
+                </div>
+              ))}
+            </div>
+
+            {/* Dynamic Engine Highlights (Controlled via Admin) */}
+            {game.highlights && game.highlights.length > 0 && (
+              <div className="p-4 rounded-2xl bg-[#12131c]/70 border border-white/10 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-mono uppercase tracking-wider text-slate-300 font-bold flex items-center gap-1.5">
+                    <FiZap className="h-3.5 w-3.5 text-amber-400" />
+                    <span>Verified Production Features &amp; Engine Highlights</span>
+                  </span>
+                  <span className="text-[10px] font-mono text-slate-500">{game.highlights.length} Highlights</span>
+                </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pt-1">
+                  {game.highlights.slice(0, 4).map((highlight, idx) => (
+                    <div key={idx} className="flex items-start gap-2 text-xs text-slate-300">
+                      <span className="h-1.5 w-1.5 rounded-full bg-red-500 mt-1.5 shrink-0" />
+                      <span className="leading-snug">{highlight}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
 
             {/* Interactive Board Surface Preview */}
             <div className="rounded-2xl bg-[#12131c] border border-white/15 p-4 flex flex-col sm:flex-row items-center gap-5 shadow-xl">
@@ -277,46 +434,109 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
         </div>
 
         {/* ========================================================================= */}
-        {/* MULTI-SCREENSHOT INSPECTION SUITE (LOCATED DIRECTLY BELOW) */}
+        {/* MULTI-SCREENSHOT INSPECTION SUITE (WITH ATMOSPHERE LIGHTING & ANIMATIONS) */}
         {/* ========================================================================= */}
         <section className="space-y-6 pt-6 border-t border-white/10">
-          <div className="space-y-1">
-            <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Visual Verification</span>
-            <h2 className="text-xl sm:text-3xl font-bold text-white tracking-tight">
-              Production Screen Captures ({currentScreenshots.length} Views)
-            </h2>
-            <p className="text-xs sm:text-sm text-slate-400">
-              Examining the actual Android production UI, game states, and operational screens.
-            </p>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-1">
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Visual Verification & Atmosphere</span>
+              <h2 className="text-xl sm:text-3xl font-bold text-white tracking-tight">
+                Production Screen Captures ({currentScreenshots.length} Views)
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Examining the actual Android production UI, game states, and operational screens.
+              </p>
+            </div>
+
+            {/* Interactive Atmosphere Lighting Switcher */}
+            <div className="flex items-center gap-1.5 p-1.5 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md self-start sm:self-auto">
+              <span className="text-[10px] font-mono text-slate-400 px-2 uppercase font-semibold">
+                Ambient Glow:
+              </span>
+              <div className="flex items-center gap-1">
+                {atmospherePresets.map((preset) => (
+                  <button
+                    key={preset.id}
+                    type="button"
+                    onClick={() => setAtmosphere(preset.id)}
+                    title={`Lighting: ${preset.label}`}
+                    className={`h-6 px-2.5 rounded-xl text-[10px] font-mono font-medium flex items-center gap-1.5 transition-all cursor-pointer ${
+                      atmosphere === preset.id
+                        ? `${preset.bgChip} shadow-xs scale-105 font-bold`
+                        : 'text-slate-400 hover:text-white hover:bg-white/10'
+                    }`}
+                  >
+                    <span className={`h-2 w-2 rounded-full ${preset.dotColor}`} />
+                    <span className="hidden sm:inline">{preset.label.split(' ')[0]}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="rounded-3xl bg-[#12131c] border border-white/15 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            {/* Main Screenshot Preview */}
-            <div className="lg:col-span-5 flex justify-center">
+          <div className="rounded-3xl bg-[#12131c] border border-white/15 p-6 sm:p-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative overflow-hidden">
+            {/* Main Screenshot Preview with Dynamic Ambient Glow & Floating Chips */}
+            <div className="lg:col-span-5 flex flex-col items-center justify-center relative">
+              {/* Dynamic Animated Ambient Glow Aura */}
+              <div
+                className={`absolute -inset-6 bg-gradient-to-tr ${currentAtmosphere.glowAura} rounded-[60px] blur-3xl opacity-80 transition-all duration-700 pointer-events-none animate-aura-spin`}
+              />
+
+              {/* Floating Tech Badges */}
+              <div className="absolute -top-3 -right-2 sm:-right-4 z-30 px-3 py-1 rounded-xl bg-[#12131c]/90 border border-white/15 backdrop-blur-md text-[10px] font-mono text-slate-200 flex items-center gap-1.5 shadow-xl animate-float">
+                <span className={`h-1.5 w-1.5 rounded-full ${currentAtmosphere.dotColor} animate-pulse`} />
+                <span>60 FPS Native Loop</span>
+              </div>
+
+              <div className="absolute -bottom-1 -left-2 sm:-left-4 z-30 px-3 py-1 rounded-xl bg-[#12131c]/90 border border-white/15 backdrop-blur-md text-[10px] font-mono text-slate-200 flex items-center gap-1.5 shadow-xl animate-float" style={{ animationDelay: '1.6s' }}>
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                <span>Deterministic Client</span>
+              </div>
+
+              {/* Phone Device Mockup Container */}
               <div
                 onClick={() => setLightboxImg(currentScreenshots[activeScreenIndex].src)}
-                className="relative group cursor-pointer w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 shadow-2xl hover:scale-[1.01] transition-transform"
+                className={`relative group cursor-pointer w-full max-w-[270px] sm:max-w-[290px] rounded-[38px] p-2.5 bg-gradient-to-b from-slate-800/80 via-[#12131c] to-black border border-white/20 ${currentAtmosphere.phoneBorder} shadow-2xl hover:scale-[1.02] transition-all duration-300 z-10`}
               >
                 {/* Simulated Phone Speaker / Dynamic Island Indicator */}
                 <div className="absolute top-4 left-1/2 -translate-x-1/2 w-16 h-3 bg-black rounded-full z-20 flex items-center justify-center pointer-events-none">
                   <div className="w-2.5 h-2.5 rounded-full bg-slate-900 border border-white/10" />
                 </div>
 
-                <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black flex items-center justify-center">
-                  <Image
-                    src={currentScreenshots[activeScreenIndex].src}
-                    alt={currentScreenshots[activeScreenIndex].title}
-                    fill
-                    className="object-contain"
-                    sizes="(max-width: 768px) 100vw, 320px"
-                    priority
-                  />
-                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-medium backdrop-blur-xs z-10">
+                <div className="relative rounded-[28px] overflow-hidden aspect-[9/19.5] bg-black">
+                  {/* Holographic Laser Scanline Sweep */}
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/15 to-transparent h-20 w-full animate-scanline pointer-events-none z-20 opacity-30" />
+
+                  {/* Fluid Framer Motion Crossfade and Scaling */}
+                  <AnimatePresence mode="wait">
+                    <motion.div
+                      key={activeScreenIndex}
+                      initial={{ opacity: 0, scale: 0.96 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 1.02 }}
+                      transition={{ duration: 0.25, ease: 'easeOut' }}
+                      className="absolute inset-0 w-full h-full"
+                    >
+                      <Image
+                        src={currentScreenshots[activeScreenIndex].src}
+                        alt={currentScreenshots[activeScreenIndex].title}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, 320px"
+                        priority
+                      />
+                    </motion.div>
+                  </AnimatePresence>
+
+                  <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 text-white text-xs font-medium backdrop-blur-xs z-30 pointer-events-none">
                     <FiMaximize2 className="h-4 w-4" />
                     <span>Expand High-Res</span>
                   </div>
                 </div>
               </div>
+
+              {/* Mirror Floor Reflection */}
+              <div className="w-3/4 h-5 mt-1 rounded-full bg-gradient-to-b from-white/10 to-transparent blur-md opacity-25 pointer-events-none" />
             </div>
 
             {/* Description & Navigation Rail */}
@@ -375,8 +595,8 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                       onClick={() => setActiveScreenIndex(idx)}
                       className={`relative aspect-[9/19.5] rounded-lg overflow-hidden border transition-all cursor-pointer bg-black ${
                         activeScreenIndex === idx
-                          ? 'border-white scale-105 shadow-md ring-1 ring-white/50'
-                          : 'border-white/10 opacity-50 hover:opacity-100'
+                          ? `border-white scale-105 shadow-lg ring-2 ${currentAtmosphere.ring}`
+                          : 'border-white/10 opacity-50 hover:opacity-100 hover:border-white/30'
                       }`}
                     >
                       <Image
@@ -690,6 +910,125 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
               </div>
             </div>
           )}
+        </section>
+
+        {/* ========================================================================= */}
+        {/* COMING SOON & PLATFORM AVAILABILITY ROADMAP */}
+        {/* ========================================================================= */}
+        <section id="coming-soon" className="scroll-mt-20 space-y-6 pt-8 border-t border-white/10">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div className="space-y-1">
+              <span className="text-xs font-mono uppercase tracking-wider text-slate-400">Distribution Roadmap</span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+                Platform Availability Matrix
+              </h2>
+              <p className="text-xs sm:text-sm text-slate-400">
+                Official store deployment pipeline and verified release status for {game.title}.
+              </p>
+            </div>
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-mono text-slate-300">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>Admin Controlled Status</span>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Android Card */}
+            <div className="p-6 rounded-3xl bg-[#12131c] border border-white/10 space-y-4 relative overflow-hidden">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
+                    <FaAndroid className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Android Ecosystem</h3>
+                    <p className="text-xs font-mono text-slate-400">{game.package}</p>
+                  </div>
+                </div>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-mono font-semibold border ${
+                    hasAndroidLink
+                      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                      : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                  }`}
+                >
+                  {hasAndroidLink ? (game.playStoreStatus || 'Production Live') : (game.playStoreStatus || 'Coming Soon')}
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-400 leading-relaxed">
+                {hasAndroidLink
+                  ? 'Officially published and verified on Google Play Store. Signed with cryptographic release Keystore and targeting modern Android API levels.'
+                  : 'Currently in active engineering track and closed testing. Binary signing and automated regression suites are in progress.'}
+              </p>
+
+              {hasAndroidLink ? (
+                <a
+                  href={game.playStoreUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 hover:bg-emerald-500 text-white transition-colors"
+                >
+                  <FaGooglePlay className="h-3.5 w-3.5" />
+                  <span>Open Google Play Store</span>
+                  <FiExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono text-amber-300 bg-amber-500/10 border border-amber-500/30">
+                  <FiClock className="h-3.5 w-3.5" />
+                  <span>Track Status: {game.playStoreStatus || 'Closed Testing in Progress'}</span>
+                </div>
+              )}
+            </div>
+
+            {/* iOS Card */}
+            <div className="p-6 rounded-3xl bg-[#12131c] border border-white/10 space-y-4 relative overflow-hidden">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <div className="h-10 w-10 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-white">
+                    <FaApple className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <h3 className="text-base font-bold text-white">Apple iOS Ecosystem</h3>
+                    <p className="text-xs font-mono text-slate-400">iOS 15.0+ &bull; TestFlight Track</p>
+                  </div>
+                </div>
+                <span
+                  className={`px-3 py-1 rounded-full text-xs font-mono font-semibold border ${
+                    hasIosLink
+                      ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
+                      : 'bg-amber-500/15 text-amber-400 border-amber-500/30'
+                  }`}
+                >
+                  {hasIosLink ? (game.appStoreStatus || 'App Store Live') : (game.appStoreStatus || 'Coming Soon')}
+                </span>
+              </div>
+
+              <p className="text-xs text-slate-400 leading-relaxed">
+                {hasIosLink
+                  ? 'Available on the Apple App Store / TestFlight. Built with Apple Human Interface Guidelines and App Tracking Transparency compliance.'
+                  : 'The iOS cross-platform release is currently in engineering preparation. TestFlight build invitations and App Store review will follow.'}
+              </p>
+
+              {hasIosLink ? (
+                <a
+                  href={game.appStoreUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-semibold bg-white hover:bg-slate-200 text-black transition-colors"
+                >
+                  <FaApple className="h-3.5 w-3.5" />
+                  <span>Open Apple App Store</span>
+                  <FiExternalLink className="h-3 w-3" />
+                </a>
+              ) : (
+                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-mono text-amber-300 bg-amber-500/10 border border-amber-500/30">
+                  <FiClock className="h-3.5 w-3.5" />
+                  <span>Status: {game.appStoreStatus || 'Coming Soon / In Preparation'}</span>
+                </div>
+              )}
+            </div>
+          </div>
         </section>
       </div>
 

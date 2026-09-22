@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import QRCode from 'qrcode';
-import { FiSmartphone, FiCopy, FiCheck, FiExternalLink, FiDownload } from 'react-icons/fi';
+import { FiSmartphone, FiCopy, FiCheck, FiExternalLink, FiClock, FiAlertCircle } from 'react-icons/fi';
 import { FaGooglePlay, FaApple, FaAndroid } from 'react-icons/fa6';
 import { AppItem } from '@/lib/defaultData';
 
@@ -16,18 +16,28 @@ export default function PlatformQrCard({ game, className = '' }: PlatformQrCardP
   const [qrUrl, setQrUrl] = useState<string>('');
   const [copied, setCopied] = useState(false);
 
-  const isChess =
-    game.title.toLowerCase().includes('chess') ||
-    game.package.toLowerCase().includes('chess');
+  const hasAndroidLink = Boolean(
+    game.playStoreUrl && game.playStoreUrl.trim().startsWith('http')
+  );
+  const hasIosLink = Boolean(
+    game.appStoreUrl && game.appStoreUrl.trim().startsWith('http')
+  );
 
-  const androidUrl =
-    game.playStoreUrl || `https://play.google.com/store/apps/details?id=${game.package}`;
+  const isCurrentPlatformAvailable = platform === 'android' ? hasAndroidLink : hasIosLink;
 
-  const iosUrl = isChess
-    ? 'https://apps.apple.com/app/chess-binge/id6740000000'
-    : 'https://apps.apple.com/app/ludo-binge/id6740000001';
-
-  const currentUrl = platform === 'android' ? androidUrl : iosUrl;
+  // If there is a real store link, use it; otherwise generate a valid anchor URL pointing to the game page's Coming Soon roadmap
+  const currentUrl =
+    platform === 'android'
+      ? hasAndroidLink
+        ? game.playStoreUrl!
+        : typeof window !== 'undefined'
+        ? `${window.location.href.split('#')[0]}#coming-soon`
+        : `https://apps.shivamshankhdhar.dev/apps/games/${game.package}#coming-soon`
+      : hasIosLink
+      ? game.appStoreUrl!
+      : typeof window !== 'undefined'
+      ? `${window.location.href.split('#')[0]}#coming-soon`
+      : `https://apps.shivamshankhdhar.dev/apps/games/${game.package}#coming-soon`;
 
   useEffect(() => {
     QRCode.toDataURL(currentUrl, {
@@ -66,32 +76,54 @@ export default function PlatformQrCard({ game, className = '' }: PlatformQrCardP
           <span className="text-[10px] font-mono text-slate-500">Fast QR Pairing</span>
         </div>
 
-        {/* Platform Toggle Tabs */}
+        {/* Platform Toggle Tabs with Real Availability Badges */}
         <div className="grid grid-cols-2 gap-1.5 p-1 rounded-xl bg-black/50 border border-white/10">
           <button
             type="button"
             onClick={() => setPlatform('android')}
-            className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center justify-between py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               platform === 'android'
                 ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
                 : 'text-slate-400 hover:text-white hover:bg-white/5'
             }`}
           >
-            <FaAndroid className="h-3.5 w-3.5" />
-            <span>Android</span>
+            <div className="flex items-center gap-1.5">
+              <FaAndroid className="h-3.5 w-3.5" />
+              <span>Android</span>
+            </div>
+            <span
+              className={`text-[9px] px-1.5 py-0.5 rounded font-mono uppercase font-bold ${
+                hasAndroidLink
+                  ? 'bg-white/20 text-white'
+                  : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+              }`}
+            >
+              {hasAndroidLink ? 'Available' : 'Soon'}
+            </span>
           </button>
 
           <button
             type="button"
             onClick={() => setPlatform('ios')}
-            className={`flex items-center justify-center gap-2 py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+            className={`flex items-center justify-between py-2 px-3 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
               platform === 'ios'
                 ? 'bg-gradient-to-r from-slate-200 to-white text-black shadow-md'
                 : 'text-slate-400 hover:text-white hover:bg-white/5'
             }`}
           >
-            <FaApple className="h-3.5 w-3.5" />
-            <span>iOS TestFlight</span>
+            <div className="flex items-center gap-1.5">
+              <FaApple className="h-3.5 w-3.5" />
+              <span>iOS</span>
+            </div>
+            <span
+              className={`text-[9px] px-1.5 py-0.5 rounded font-mono uppercase font-bold ${
+                hasIosLink
+                  ? 'bg-black/20 text-black'
+                  : 'bg-amber-500/20 text-amber-300 border border-amber-500/30'
+              }`}
+            >
+              {hasIosLink ? 'Live' : 'Soon'}
+            </span>
           </button>
         </div>
       </div>
@@ -122,44 +154,91 @@ export default function PlatformQrCard({ game, className = '' }: PlatformQrCardP
                 )}
               </div>
             </div>
+
+            {/* Coming Soon Holographic Overlay When Link is Absent */}
+            {!isCurrentPlatformAvailable && (
+              <div className="absolute inset-0 bg-black/85 backdrop-blur-[2px] rounded-[14px] flex flex-col items-center justify-center p-4 text-center z-20">
+                <div className="h-8 w-8 rounded-full bg-amber-500/20 border border-amber-500/40 flex items-center justify-center mb-2">
+                  <FiClock className="h-4 w-4 text-amber-300" />
+                </div>
+                <span className="px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40 text-[10px] font-mono font-bold uppercase tracking-wider mb-1">
+                  Coming Soon
+                </span>
+                <p className="text-xs font-bold text-white">
+                  {platform === 'android' ? 'Android Release in Track' : 'iOS Version in Development'}
+                </p>
+                <p className="text-[10px] text-slate-400 mt-1 font-mono">
+                  {platform === 'android'
+                    ? (game.playStoreStatus || 'Closed Testing in Progress')
+                    : (game.appStoreStatus || 'Apple TestFlight Review')}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
         {/* Scan instruction */}
         <p className="text-[11px] text-slate-400 font-mono text-center mt-3 flex items-center justify-center gap-1.5">
-          <span>Point your phone camera to scan</span>
+          {isCurrentPlatformAvailable ? (
+            <span>Point your phone camera to scan</span>
+          ) : (
+            <span className="text-amber-400 flex items-center gap-1">
+              <FiAlertCircle className="h-3 w-3" />
+              <span>Platform link coming soon &bull; Scan for details</span>
+            </span>
+          )}
         </p>
       </div>
 
-      {/* Action Buttons: Direct Store Link & Copy URL */}
+      {/* Action Buttons: Direct Store Link or Coming Soon State */}
       <div className="space-y-2 relative z-10 pt-1">
-        <a
-          href={currentUrl}
-          target="_blank"
-          rel="noreferrer"
-          className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-            platform === 'android'
-              ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-600/25'
-              : 'bg-white hover:bg-slate-200 text-black shadow-md'
-          }`}
-        >
-          {platform === 'android' ? (
-            <>
-              <FaGooglePlay className="h-3.5 w-3.5" />
+        {isCurrentPlatformAvailable ? (
+          <a
+            href={currentUrl}
+            target="_blank"
+            rel="noreferrer"
+            className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              platform === 'android'
+                ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-md shadow-red-600/25'
+                : 'bg-white hover:bg-slate-200 text-black shadow-md'
+            }`}
+          >
+            {platform === 'android' ? (
+              <>
+                <FaGooglePlay className="h-3.5 w-3.5" />
+                <span>
+                  {game.status?.toLowerCase().includes('closed')
+                    ? 'Join Google Play Closed Track'
+                    : 'Open in Google Play Store'}
+                </span>
+              </>
+            ) : (
+              <>
+                <FaApple className="h-3.5 w-3.5" />
+                <span>Open on Apple App Store</span>
+              </>
+            )}
+            <FiExternalLink className="h-3.5 w-3.5 opacity-80" />
+          </a>
+        ) : (
+          <div className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-white/5 border border-white/10 text-slate-300 flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              {platform === 'android' ? (
+                <FaGooglePlay className="h-3.5 w-3.5 text-emerald-400" />
+              ) : (
+                <FaApple className="h-3.5 w-3.5 text-slate-300" />
+              )}
               <span>
-                {game.status?.toLowerCase().includes('closed')
-                  ? 'Join Google Play Closed Track'
-                  : 'Open in Google Play Store'}
+                {platform === 'android'
+                  ? `Google Play: ${game.playStoreStatus || 'Coming Soon'}`
+                  : `App Store: ${game.appStoreStatus || 'Coming Soon'}`}
               </span>
-            </>
-          ) : (
-            <>
-              <FaApple className="h-3.5 w-3.5" />
-              <span>Open on Apple App Store</span>
-            </>
-          )}
-          <FiExternalLink className="h-3.5 w-3.5 opacity-80" />
-        </a>
+            </div>
+            <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/30 font-mono">
+              Coming Soon
+            </span>
+          </div>
+        )}
 
         <button
           type="button"
@@ -169,12 +248,16 @@ export default function PlatformQrCard({ game, className = '' }: PlatformQrCardP
           {copied ? (
             <>
               <FiCheck className="h-3.5 w-3.5 text-emerald-400" />
-              <span className="text-emerald-400 font-medium">Download Link Copied!</span>
+              <span className="text-emerald-400 font-medium">
+                {isCurrentPlatformAvailable ? 'Store Link Copied!' : 'Overview URL Copied!'}
+              </span>
             </>
           ) : (
             <>
               <FiCopy className="h-3.5 w-3.5 text-slate-400" />
-              <span>Copy Direct Link</span>
+              <span>
+                {isCurrentPlatformAvailable ? 'Copy Direct Link' : 'Copy Game Overview Link'}
+              </span>
             </>
           )}
         </button>

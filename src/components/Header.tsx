@@ -5,9 +5,32 @@ import Link from 'next/link';
 import { FiExternalLink, FiMenu, FiX, FiLayers, FiShield, FiCpu, FiGrid } from 'react-icons/fi';
 import { motion, AnimatePresence } from 'framer-motion';
 
-export default function Header() {
+interface HeaderProps {
+  initialPortfolioUrl?: string;
+}
+
+export default function Header({ initialPortfolioUrl }: HeaderProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
-  const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
+  const [portfolioUrl, setPortfolioUrl] = useState(
+    initialPortfolioUrl || process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev'
+  );
+
+  React.useEffect(() => {
+    if (initialPortfolioUrl) {
+      setPortfolioUrl(initialPortfolioUrl);
+    }
+  }, [initialPortfolioUrl]);
+
+  React.useEffect(() => {
+    fetch('/api/profile?t=' + Date.now(), { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.portfolioUrl) {
+          setPortfolioUrl(data.portfolioUrl);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   const navLinks = [
     { href: '/apps', label: 'Apps', icon: FiGrid },

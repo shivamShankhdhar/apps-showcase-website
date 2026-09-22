@@ -1,11 +1,36 @@
-import React from 'react';
+'use client';
+
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { FiSmartphone, FiShield, FiFileText, FiExternalLink, FiHeart } from 'react-icons/fi';
 import { FaGooglePlay, FaGamepad } from 'react-icons/fa6';
 
-export default function Footer() {
+interface FooterProps {
+  initialPortfolioUrl?: string;
+}
+
+export default function Footer({ initialPortfolioUrl }: FooterProps = {}) {
   const currentYear = new Date().getFullYear();
-  const portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
+  const [portfolioUrl, setPortfolioUrl] = useState(
+    initialPortfolioUrl || process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev'
+  );
+
+  useEffect(() => {
+    if (initialPortfolioUrl) {
+      setPortfolioUrl(initialPortfolioUrl);
+    }
+  }, [initialPortfolioUrl]);
+
+  useEffect(() => {
+    fetch('/api/profile?t=' + Date.now(), { cache: 'no-store' })
+      .then((r) => r.json())
+      .then((data) => {
+        if (data?.portfolioUrl) {
+          setPortfolioUrl(data.portfolioUrl);
+        }
+      })
+      .catch(() => {});
+  }, []);
 
   return (
     <footer className="border-t border-red-500/20 bg-[#07070a] text-slate-400 text-xs py-12 px-4 sm:px-6 lg:px-8 relative z-10">
