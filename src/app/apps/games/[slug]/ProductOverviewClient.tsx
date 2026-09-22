@@ -151,16 +151,11 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
         </nav>
 
         {/* ========================================================================= */}
-        {/* HERO SECTION: LEFT QR CARD (SWITCHABLE TABS) & RIGHT PRODUCT DETAILS */}
+        {/* HERO SECTION: LEFT PRODUCT DETAILS & RIGHT QR CARD (SWITCHABLE TABS) */}
         {/* ========================================================================= */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
           
-          {/* Left: QR Code Card with Android & iOS Tabs */}
-          <div className="lg:col-span-5 w-full">
-            <PlatformQrCard game={game} />
-          </div>
-
-          {/* Right: Product Narrative & Interactive Surface */}
+          {/* Left: Product Narrative & Interactive Surface */}
           <div className="lg:col-span-7 space-y-6">
             <div className="space-y-2">
               <div className="flex flex-wrap items-center gap-2 font-mono text-xs">
@@ -265,6 +260,12 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
             </div>
 
           </div>
+
+          {/* Right: QR Code Card with Android & iOS Tabs */}
+          <div className="lg:col-span-5 w-full">
+            <PlatformQrCard game={game} />
+          </div>
+
         </div>
 
         {/* ========================================================================= */}
