@@ -12,9 +12,8 @@ export default function Header() {
 
   const navLinks = [
     { href: '/#apps', label: 'All Apps' },
-    { href: '/games', label: '🎮 Games Showcase' },
-    { href: '/#features', label: 'Tech Architecture' },
-    { href: '/#privacy', label: 'Privacy & Security' },
+    { href: '/games', label: '🎮 Games' },
+    { href: '/privacy-policy', label: 'Privacy Policy' },
   ];
 
   return (

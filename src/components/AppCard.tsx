@@ -23,6 +23,10 @@ interface AppCardProps {
 export default function AppCard({ app }: AppCardProps) {
   const [isQrOpen, setIsQrOpen] = useState(false);
   const isGame = (app.category || '').toLowerCase() === 'games';
+  const detailUrl = isGame
+    ? `/games/${app.id || app.package}`
+    : `/apps/${app.id || app.package}`;
+
   const isTesting =
     app.status?.toLowerCase().includes('closed') ||
     app.status?.toLowerCase().includes('testing') ||
@@ -31,7 +35,7 @@ export default function AppCard({ app }: AppCardProps) {
   const shareUrl =
     app.playStoreUrl ||
     (typeof window !== 'undefined'
-      ? `${window.location.origin}/privacy-policy/${app.id || app.package}`
+      ? `${window.location.origin}${detailUrl}`
       : 'https://shivamshankhdhar.dev');
 
   return (
@@ -51,13 +55,18 @@ export default function AppCard({ app }: AppCardProps) {
           {/* Header Row */}
           <div className="flex items-start justify-between gap-4">
             <div className="flex items-center gap-3.5">
-              <div className="h-14 w-14 rounded-2xl bg-gradient-to-br from-red-600/20 via-rose-600/20 to-transparent border border-red-500/30 flex items-center justify-center text-3xl shadow-sm shrink-0 group-hover:scale-105 transition-transform">
+              <Link
+                href={detailUrl}
+                className="h-14 w-14 rounded-2xl bg-gradient-to-br from-red-600/20 via-rose-600/20 to-transparent border border-red-500/30 flex items-center justify-center text-3xl shadow-sm shrink-0 group-hover:scale-105 transition-transform"
+              >
                 {app.icon || (isGame ? '🎮' : '📱')}
-              </div>
+              </Link>
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <h3 className="text-lg sm:text-xl font-bold text-white tracking-tight">
-                    {app.title}
+                    <Link href={detailUrl} className="hover:text-red-400 transition-colors">
+                      {app.title}
+                    </Link>
                   </h3>
                   <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-white/10 text-slate-300">
                     {app.version || 'v1.0.0'}
@@ -162,16 +171,18 @@ export default function AppCard({ app }: AppCardProps) {
         {/* Action Buttons */}
         <div className="pt-4 border-t border-white/10 flex flex-wrap items-center justify-between gap-3 relative z-10">
           <div className="flex items-center gap-2">
-            {isGame && (
-              <Link
-                href="/games"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-sm shadow-red-600/30 transition-all"
-              >
-                <FaGamepad className="h-3.5 w-3.5" />
-                <span>Play Game</span>
-                <FiChevronRight className="h-3 w-3" />
-              </Link>
-            )}
+            <Link
+              href={detailUrl}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all shadow-sm ${
+                isGame
+                  ? 'bg-gradient-to-r from-red-600 to-rose-600 hover:from-red-500 hover:to-rose-500 text-white shadow-red-600/30'
+                  : 'bg-white/10 hover:bg-white/20 text-white border border-white/10'
+              }`}
+            >
+              {isGame ? <FaGamepad className="h-3.5 w-3.5" /> : <FiSmartphone className="h-3.5 w-3.5 text-red-400" />}
+              <span>{isGame ? 'Explore Game' : 'View App'}</span>
+              <FiChevronRight className="h-3 w-3" />
+            </Link>
 
             {isTesting ? (
               <span className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-semibold bg-white/5 text-slate-400 border border-white/10 cursor-not-allowed">
