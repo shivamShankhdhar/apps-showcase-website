@@ -19,6 +19,8 @@ import {
   FiChevronRight,
   FiCheck,
   FiDatabase,
+  FiArrowRight,
+  FiExternalLink,
 } from 'react-icons/fi';
 import { FaDiceD6, FaChessKnight } from 'react-icons/fa6';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -222,7 +224,13 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
               </div>
               <div>
                 <p className="text-[10px] text-slate-400 uppercase font-mono">Privacy Track</p>
-                <p className="text-xs font-bold text-slate-300 mt-0.5">Zero Identity Scrape</p>
+                <Link
+                  href={`/apps/games/${game.id || game.package}/privacy-policy`}
+                  className="text-xs font-bold text-slate-300 hover:text-red-400 mt-0.5 inline-flex items-center gap-1 transition-colors"
+                >
+                  <span>Zero Identity Scrape</span>
+                  <FiExternalLink className="h-2.5 w-2.5 text-slate-500" />
+                </Link>
               </div>
             </div>
 
@@ -659,6 +667,26 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                     </span>
                   ))}
                 </div>
+              </div>
+
+              {/* Official Privacy Policy Card */}
+              <div className="p-6 rounded-2xl bg-gradient-to-r from-red-600/10 via-rose-600/5 to-transparent border border-red-500/20 space-y-3 md:col-span-2 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <div className="flex items-center gap-2">
+                    <FiShield className="h-4 w-4 text-red-400" />
+                    <h4 className="text-sm font-bold text-white">Google Play Store Data Safety &amp; Privacy Policy</h4>
+                  </div>
+                  <p className="text-xs text-slate-400 max-w-xl">
+                    Official disclosure of local data storage, AdMob telemetry, COPPA child protection, and user deletion rights.
+                  </p>
+                </div>
+                <Link
+                  href={`/apps/games/${game.id || game.package}/privacy-policy`}
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-white text-black hover:bg-slate-200 transition-colors shrink-0 font-mono"
+                >
+                  <span>Read Privacy Policy</span>
+                  <FiArrowRight className="h-3.5 w-3.5" />
+                </Link>
               </div>
             </div>
           )}

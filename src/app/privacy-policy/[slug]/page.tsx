@@ -1,7 +1,7 @@
 import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { notFound } from 'next/navigation';
+import { notFound, redirect } from 'next/navigation';
 import { FiShield, FiArrowLeft, FiCheckCircle, FiMail } from 'react-icons/fi';
 import { defaultApps } from '@/lib/defaultData';
 
@@ -34,9 +34,14 @@ export default async function AppPrivacyPolicyPage({ params }: PageProps) {
       a.title?.toLowerCase().replace(/\s+/g, '-') === slug.toLowerCase()
   );
 
+  const isGame = app?.category?.toLowerCase() === 'games' || slug.toLowerCase().includes('chess') || slug.toLowerCase().includes('ludo');
+
+  if (isGame) {
+    redirect(`/apps/games/${app?.id || slug}/privacy-policy`);
+  }
+
   const appName = app?.title || slug.replace(/-/g, ' ').toUpperCase();
   const packageName = app?.package || `com.shivam.${slug}`;
-  const isGame = app?.category?.toLowerCase() === 'games';
 
   return (
     <main className="min-h-screen bg-[#09090b] text-slate-200 py-12 px-4 sm:px-6 lg:px-8 bg-developer-grid">

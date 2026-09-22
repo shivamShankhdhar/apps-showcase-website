@@ -78,12 +78,12 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy/chess-binge" className="hover:text-red-400 transition-colors">
+                <Link href="/apps/games/chess-binge/privacy-policy" className="hover:text-red-400 transition-colors">
                   Chess Binge Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/privacy-policy/ludo-binge" className="hover:text-red-400 transition-colors">
+                <Link href="/apps/games/ludo-binge/privacy-policy" className="hover:text-red-400 transition-colors">
                   Ludo Binge Privacy Policy
                 </Link>
               </li>
