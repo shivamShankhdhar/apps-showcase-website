@@ -25,12 +25,15 @@ export const metadata: Metadata = {
     'Mobile Development',
   ],
   authors: [{ name: 'Shivam Shankhdhar' }],
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://apps.shivamshankhdhar.dev'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://apps.shivamshankhdhar.online'),
   openGraph: {
     title: 'Shivam Apps Hub - Production Android Games & Applications',
     description:
-      'Explore production mobile applications and board games engineered with low-latency native modules, Stockfish AI, and WebSocket real-time multiplayer.',
+      'Official application portal and game showcase by Shivam Shankhdhar. Explore Chess Binge, Ludo Binge, FlowTask, and native Android production apps engineered with React Native and Expo.',
     type: 'website',
+  },
+  other: {
+    'google-adsense-account': 'ca-pub-1113302487630583',
   },
 };
 
@@ -39,7 +42,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  let portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.dev';
+  let portfolioUrl = process.env.NEXT_PUBLIC_PORTFOLIO_URL || 'https://shivamshankhdhar.online';
   try {
     if (isDbConfigured()) {
       await connectDB();
@@ -54,6 +57,14 @@ export default async function RootLayout({
 
   return (
     <html lang="en" className="dark scroll-smooth">
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-1113302487630583" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1113302487630583"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body className="min-h-screen bg-[#09090b] text-slate-100 antialiased selection:bg-red-500 selection:text-white flex flex-col justify-between">
         <TopProgressBar />
         <Header initialPortfolioUrl={portfolioUrl} />
