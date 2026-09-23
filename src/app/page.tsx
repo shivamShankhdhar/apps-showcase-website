@@ -315,6 +315,26 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Mobile Engineering Philosophy Quote */}
+      <section className="py-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+        <div className="relative rounded-3xl bg-gradient-to-r from-red-950/30 via-slate-900/60 to-black/80 border border-red-500/20 p-8 sm:p-12 overflow-hidden shadow-2xl">
+          <div className="absolute top-2 right-6 font-serif text-[100px] sm:text-[140px] font-black text-red-500/10 pointer-events-none select-none leading-none">
+            &ldquo;
+          </div>
+          <div className="relative z-10 max-w-3xl space-y-4">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-mono text-red-400 bg-red-500/10 border border-red-500/20">
+              <span>✦ MOBILE ENGINEERING PHILOSOPHY</span>
+            </div>
+            <blockquote className="text-lg sm:text-2xl font-bold text-white leading-relaxed tracking-tight">
+              &ldquo;Great mobile software runs seamlessly in the palm of your hand: offline-first, battery-efficient, and engineered without compromise.&rdquo;
+            </blockquote>
+            <p className="text-xs font-mono text-slate-400">
+              — Shivam Shankhdhar • Native App Architect &amp; Game Engine Creator
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Directory CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/10">
         <div className="rounded-3xl bg-gradient-to-r from-[#141522] via-[#12131c] to-[#0d0e15] border border-white/10 p-8 sm:p-12 flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl relative overflow-hidden">

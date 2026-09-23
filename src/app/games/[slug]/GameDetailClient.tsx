@@ -109,29 +109,39 @@ export default function GameDetailClient({ game }: GameDetailClientProps) {
 
   const ludoScreenshots = [
     {
-      src: '/screenshots/ludo/01_ludo_home.jpg',
-      title: 'Offline Arena Home Dashboard',
-      caption: '3D Hero Board, Solo Game vs Bot, Pass & Play, and Offline status indicator.',
+      src: '/screenshots/ludo/01_home_lobby.png',
+      title: 'Offline Arena & Smart Bot Lobby',
+      caption: 'Instant matchmaking against tactical AI bots, quick match stakes, and tablet-optimized responsive UI.',
     },
     {
-      src: '/screenshots/ludo/02_ludo_spin.jpg',
+      src: '/screenshots/ludo/02_game_setup.png',
+      title: 'Match Rules & Player Selection',
+      caption: '2 to 4 player local multiplayer battles, bot difficulty selection, and customizable player seats.',
+    },
+    {
+      src: '/screenshots/ludo/03_classic_board.png',
+      title: 'Classic Board & Real-Time HUD',
+      caption: 'Ultra-smooth 60 FPS board engine, tactical haptics, safe havens, and dedicated live player HUD cards.',
+    },
+    {
+      src: '/screenshots/ludo/04_match_results.png',
+      title: 'Victory Podium & Career Progression',
+      caption: 'Match results with placement rankings, coin earnings, and instant rematch controls.',
+    },
+    {
+      src: '/screenshots/ludo/05_daily_spin.png',
       title: 'Daily Fortune Spin Wheel',
-      caption: 'Spin daily to win 20 to 100 LD Coins and maintain your daily streak multiplier.',
+      caption: 'Interactive fortune wheel with daily streak multipliers, instant coin rewards, and bonus spins.',
     },
     {
-      src: '/screenshots/ludo/03_ludo_gameplay.jpg',
-      title: '4-Player Live Match',
-      caption: 'Full board view with 3D rolling dice physics, safe star zones, and player crowns.',
+      src: '/screenshots/ludo/06_player_profile.png',
+      title: 'Player Profile & Career Statistics',
+      caption: 'Lifetime win rates, total matches played, player rank tiers, and collectible cosmetics.',
     },
     {
-      src: '/screenshots/ludo/refer-earn-hero.jpg',
-      title: 'Squad Invite & Match Sharing',
-      caption: 'Share your squad code and QR invite with friends for local duels.',
-    },
-    {
-      src: '/screenshots/ludo/tutorial-web.png',
-      title: 'Interactive Rules & Guide',
-      caption: 'Citadel yard deployment rules, knockouts, extra rolls, and home corridor instructions.',
+      src: '/screenshots/ludo/07_how_to_play.png',
+      title: 'Interactive Rules & Guidebook',
+      caption: 'Comprehensive visual guide explaining citadel yard deployment, knockouts, safe stars, and home runs.',
     },
   ];
 

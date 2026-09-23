@@ -55,6 +55,12 @@ const profileSchema = new mongoose.Schema(
         'React Native Developer',
       ],
     },
+    headlineQuote: {
+      type: String,
+      trim: true,
+      default:
+        'Great mobile software runs seamlessly in the palm of your hand: offline-first, battery-efficient, and engineered without compromise.',
+    },
   },
   { timestamps: true, strict: false }
 );

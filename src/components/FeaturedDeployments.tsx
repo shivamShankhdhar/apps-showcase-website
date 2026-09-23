@@ -60,7 +60,7 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
             isChess
               ? '/screenshots/chess/01_home_dashboard.png'
               : isLudo
-              ? '/screenshots/ludo/01_ludo_home.jpg'
+              ? '/screenshots/ludo/01_home_lobby.png'
               : '/screenshots/chess/01_home_dashboard.png'
           );
 
