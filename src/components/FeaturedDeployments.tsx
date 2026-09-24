@@ -50,7 +50,7 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
             app.title.toLowerCase().includes('ludo') ||
             app.package.toLowerCase().includes('ludo');
 
-          const slug = app.id || app.package.split('.').pop() || app.package;
+          const slug = app.id || app.package;
           const detailUrl =
             app.category?.toLowerCase() === 'games'
               ? `/apps/games/${slug}`
@@ -60,8 +60,8 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
             isChess
               ? '/screenshots/chess/01_home_dashboard.png'
               : isLudo
-              ? '/screenshots/ludo/01_home_lobby.png'
-              : '/screenshots/chess/01_home_dashboard.png'
+                ? '/screenshots/ludo/01_home_lobby.png'
+                : '/screenshots/chess/01_home_dashboard.png'
           );
 
           const hasAndroidLink = Boolean(
@@ -80,42 +80,39 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
           const auraClass = isChess
             ? 'from-blue-600/20 via-indigo-600/20 to-rose-600/15'
             : isLudo
-            ? 'from-emerald-600/20 via-amber-500/15 to-rose-600/15'
-            : 'from-purple-600/20 via-rose-600/15 to-cyan-500/15';
+              ? 'from-emerald-600/20 via-amber-500/15 to-rose-600/15'
+              : 'from-purple-600/20 via-rose-600/15 to-cyan-500/15';
 
           const badge1Text = isChess
             ? 'Stockfish ELO 2000+'
             : isLudo
-            ? '60 FPS Render Loop'
-            : 'Zero Telemetry Leaks';
+              ? '60 FPS Render Loop'
+              : 'Zero Telemetry Leaks';
 
           const badge2Text = isChess
             ? '100% Offline State'
             : isLudo
-            ? 'PRNG Seed Engine'
-            : 'Deterministic State';
+              ? 'PRNG Seed Engine'
+              : 'Deterministic State';
 
           return (
             <div
               key={app._id || app.package || index}
-              className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center ${
-                index > 0 ? 'pt-16 border-t border-white/10' : ''
-              }`}
+              className={`grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center ${index > 0 ? 'pt-16 border-t border-white/10' : ''
+                }`}
             >
               {/* Summary Column */}
               <div
-                className={`lg:col-span-7 space-y-6 ${
-                  isEven ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
-                }`}
+                className={`lg:col-span-7 space-y-6 ${isEven ? 'order-1 lg:order-2' : 'order-1 lg:order-1'
+                  }`}
               >
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2 text-xs font-mono">
                     <span
-                      className={`px-2.5 py-0.5 rounded border font-semibold ${
-                        isTesting
+                      className={`px-2.5 py-0.5 rounded border font-semibold ${isTesting
                           ? 'bg-amber-500/10 text-amber-400 border-amber-500/20'
                           : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                      }`}
+                        }`}
                     >
                       {app.package}
                     </span>
@@ -151,13 +148,13 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
                   {(app.features && app.features.length > 0
                     ? app.features.slice(0, 4)
                     : isChess
-                    ? [
+                      ? [
                         { label: 'Engine Intelligence', value: '4 Tiers (Beginner to Master)' },
                         { label: 'Multiplayer Operation', value: 'Pass & Play (2P Offline)' },
                         { label: 'Interactive Academy', value: 'Tactics, Openings & Endgames' },
                         { label: 'Cosmetic Economy', value: '6 Themes & 10 Avatars' },
                       ]
-                    : [
+                      : [
                         { label: 'Turn State Model', value: 'ludo-binge-offline-v2' },
                         { label: 'Session Configurations', value: 'Solo AI & 2–4 Player Pass & Play' },
                         { label: 'Cosmetic Inventory', value: '8 Boards • 7 Pawns • 10 Dice' },
@@ -262,9 +259,8 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
 
               {/* Screenshot Frame Column */}
               <div
-                className={`lg:col-span-5 flex justify-center relative ${
-                  isEven ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
-                }`}
+                className={`lg:col-span-5 flex justify-center relative ${isEven ? 'order-2 lg:order-1' : 'order-2 lg:order-2'
+                  }`}
               >
                 {/* Dynamic Ambient Aura */}
                 <div
@@ -273,18 +269,16 @@ export default function FeaturedDeployments({ apps }: FeaturedDeploymentsProps) 
 
                 {/* Floating Tech Badges */}
                 <div
-                  className={`absolute -top-3 z-30 px-3 py-1.5 rounded-xl bg-[#12131c]/90 border border-white/15 backdrop-blur-md text-[10px] font-mono text-slate-300 flex items-center gap-1.5 shadow-xl animate-float ${
-                    isEven ? '-left-2 sm:-left-4' : '-right-2 sm:-right-4'
-                  }`}
+                  className={`absolute -top-3 z-30 px-3 py-1.5 rounded-xl bg-[#12131c]/90 border border-white/15 backdrop-blur-md text-[10px] font-mono text-slate-300 flex items-center gap-1.5 shadow-xl animate-float ${isEven ? '-left-2 sm:-left-4' : '-right-2 sm:-right-4'
+                    }`}
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
                   <span>{badge1Text}</span>
                 </div>
 
                 <div
-                  className={`absolute -bottom-2 z-30 px-3 py-1.5 rounded-xl bg-[#12131c]/90 border border-white/15 backdrop-blur-md text-[10px] font-mono text-slate-300 flex items-center gap-1.5 shadow-xl animate-float ${
-                    isEven ? '-right-2 sm:-right-4' : '-left-2 sm:-left-4'
-                  }`}
+                  className={`absolute -bottom-2 z-30 px-3 py-1.5 rounded-xl bg-[#12131c]/90 border border-white/15 backdrop-blur-md text-[10px] font-mono text-slate-300 flex items-center gap-1.5 shadow-xl animate-float ${isEven ? '-right-2 sm:-right-4' : '-left-2 sm:-left-4'
+                    }`}
                   style={{ animationDelay: '1.5s' }}
                 >
                   <span className="h-1.5 w-1.5 rounded-full bg-blue-400 animate-pulse" />
