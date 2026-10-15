@@ -72,14 +72,15 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
 
   const isChess = slug.toLowerCase().includes('chess');
   const isLudo = slug.toLowerCase().includes('ludo');
+  const isArrow = slug.toLowerCase().includes('arrow');
 
-  if (!game && !isChess && !isLudo) {
+  if (!game && !isChess && !isLudo && !isArrow) {
     notFound();
   }
 
-  const appTitle = game?.title || (isChess ? 'Chess Binge' : 'Ludo Binge');
-  const appPackage = game?.package || (isChess ? 'chess.binge' : 'ludo.binge');
-  const effectiveDate = isChess ? 'September 19, 2026' : 'September 22, 2026';
+  const appTitle = game?.title || (isChess ? 'Chess Binge' : (isLudo ? 'Ludo Binge' : 'Arrow Binge'));
+  const appPackage = game?.package || (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : 'arrow.binge'));
+  const effectiveDate = isChess ? 'September 19, 2026' : (isLudo ? 'September 22, 2026' : 'October 15, 2026');
   const productOverviewUrl = `/apps/games/${game?.id || slug}`;
 
   return (
@@ -205,7 +206,9 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
                 <p className="text-xs text-slate-400 leading-relaxed">
                   {isChess
                     ? 'Match moves, board FEN strings, ELO rating, and cosmetic preferences stay exclusively on your device.'
-                    : 'Turn state model (ludo-binge-offline-v2), theme selections, dice styles, and coin balances stay exclusively on your device.'}
+                    : isLudo
+                    ? 'Turn state model (ludo-binge-offline-v2), theme selections, dice styles, and coin balances stay exclusively on your device.'
+                    : 'Puzzle level progression, earned stars, unlocked boards, and Arrow Grids preferences stay exclusively on your device.'}
                 </p>
               </div>
 
@@ -252,12 +255,19 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
                   <li>Virtual currency balance (Binge Coins) and unlocked luxury Staunton board and avatar themes.</li>
                   <li>User preferences (sound volume, background music toggle, haptic tactile vibration).</li>
                 </>
-              ) : (
+              ) : isLudo ? (
                 <>
                   <li>Current turn state and board position (ludo-binge-offline-v2 format for deterministic auto-pause &amp; resume).</li>
                   <li>Single-device pass-and-play local player nicknames and color quadrant selections.</li>
                   <li>Virtual currency balance (LD Coins), fortune wheel streak counters, and unlocked cosmetic dice/arena styles.</li>
                   <li>Audio synthesis settings and haptic feedback toggles.</li>
+                </>
+              ) : (
+                <>
+                  <li>Puzzle level progression, unlocked boards, and completion stars (up to 50 handcrafted levels).</li>
+                  <li>Current puzzle board state and active arrow configurations for instant game recovery.</li>
+                  <li>Arrow Grids display toggles, free hints balance, sound effects, and haptic feedback toggles.</li>
+                  <li>Encrypted Android SharedPreferences storage (never transmitted to external servers).</li>
                 </>
               )}
             </ul>

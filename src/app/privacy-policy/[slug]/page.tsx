@@ -34,7 +34,7 @@ export default async function AppPrivacyPolicyPage({ params }: PageProps) {
       a.title?.toLowerCase().replace(/\s+/g, '-') === slug.toLowerCase()
   );
 
-  const isGame = app?.category?.toLowerCase() === 'games' || slug.toLowerCase().includes('chess') || slug.toLowerCase().includes('ludo');
+  const isGame = app?.category?.toLowerCase() === 'games' || slug.toLowerCase().includes('chess') || slug.toLowerCase().includes('ludo') || slug.toLowerCase().includes('arrow');
 
   if (isGame) {
     redirect(`/apps/games/${app?.id || slug}/privacy-policy`);
