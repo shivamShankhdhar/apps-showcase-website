@@ -73,14 +73,15 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
   const isChess = slug.toLowerCase().includes('chess');
   const isLudo = slug.toLowerCase().includes('ludo');
   const isArrow = slug.toLowerCase().includes('arrow');
+  const isHelix = slug.toLowerCase().includes('helix') || game?.id === 'helix-binge' || slug.toLowerCase().includes('binge');
 
-  if (!game && !isChess && !isLudo && !isArrow) {
+  if (!game && !isChess && !isLudo && !isArrow && !isHelix) {
     notFound();
   }
 
-  const appTitle = game?.title || (isChess ? 'Chess Binge' : (isLudo ? 'Ludo Binge' : 'Arrow Binge'));
-  const appPackage = game?.package || (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : 'arrow.binge'));
-  const effectiveDate = isChess ? 'September 19, 2026' : (isLudo ? 'September 22, 2026' : 'October 15, 2026');
+  const appTitle = game?.title || (isChess ? 'Chess Binge' : (isLudo ? 'Ludo Binge' : (isArrow ? 'Arrow Binge' : 'Helix Binge')));
+  const appPackage = game?.package || (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : (isArrow ? 'arrow.binge' : 'helix.binge')));
+  const effectiveDate = isChess ? 'September 19, 2026' : (isLudo ? 'September 22, 2026' : (isArrow ? 'October 15, 2026' : 'October 23, 2026'));
   const productOverviewUrl = `/apps/games/${game?.id || slug}`;
 
   return (
@@ -208,7 +209,9 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
                     ? 'Match moves, board FEN strings, ELO rating, and cosmetic preferences stay exclusively on your device.'
                     : isLudo
                     ? 'Turn state model (ludo-binge-offline-v2), theme selections, dice styles, and coin balances stay exclusively on your device.'
-                    : 'Puzzle level progression, earned stars, unlocked boards, and Arrow Grids preferences stay exclusively on your device.'}
+                    : isArrow
+                    ? 'Puzzle level progression, earned stars, unlocked boards, and Arrow Grids preferences stay exclusively on your device.'
+                    : 'Level progression (1 to 10,000), highest unlocked level, best score records, selected tower shapes (0–6), and pastel themes stay exclusively on your device.'}
                 </p>
               </div>
 
@@ -262,12 +265,19 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
                   <li>Virtual currency balance (LD Coins), fortune wheel streak counters, and unlocked cosmetic dice/arena styles.</li>
                   <li>Audio synthesis settings and haptic feedback toggles.</li>
                 </>
-              ) : (
+              ) : isArrow ? (
                 <>
                   <li>Puzzle level progression, unlocked boards, and completion stars (up to 50 handcrafted levels).</li>
                   <li>Current puzzle board state and active arrow configurations for instant game recovery.</li>
                   <li>Arrow Grids display toggles, free hints balance, sound effects, and haptic feedback toggles.</li>
                   <li>Encrypted Android SharedPreferences storage (never transmitted to external servers).</li>
+                </>
+              ) : (
+                <>
+                  <li>Current level number, highest unlocked level index, and lifetime high score (saved locally in <code className="text-red-400 font-mono">helix_prefs</code>).</li>
+                  <li>Procedural tower configurations: selected platform shape index (Star, Circle, Hexagon, Octagon, Gear, Square, Flower) and color theme palette (Lime Burst, Turquoise, Sunset, Neon, Violet, Pastel).</li>
+                  <li>Sound volume, synthesized audio effects toggles, and screen orientation parameters.</li>
+                  <li>100% offline-first architecture with zero account registration and zero network transmission of game states.</li>
                 </>
               )}
             </ul>
@@ -347,21 +357,25 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
 
               <div className="p-5 rounded-2xl border border-white/10 bg-[#141522]">
                 <div className="flex items-center justify-between gap-2 mb-1">
-                  <h4 className="font-bold text-white text-base">Expo / React Native Framework</h4>
+                  <h4 className="font-bold text-white text-base">
+                    {isHelix ? 'Android NDK & GameActivity SDK' : isArrow ? 'Android Jetpack & Compose Runtime' : 'Expo / React Native Framework'}
+                  </h4>
                   <span className="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-white/10 text-slate-300">
                     Runtime
                   </span>
                 </div>
                 <p className="text-xs sm:text-sm text-slate-400 mb-3 leading-relaxed">
-                  Used for core mobile application execution, hardware graphics rendering, audio playback, and haptic feedback.
+                  {isHelix
+                    ? 'High-performance C++20 game engine using Android GameActivity and OpenGL ES 3.0 for silky 60/120 FPS 3D rendering, touch event dispatching, and synthesized audio.'
+                    : 'Used for core mobile application execution, hardware graphics rendering, audio playback, and haptic feedback.'}
                 </p>
                 <a
-                  href="https://expo.dev/privacy"
+                  href={isHelix ? 'https://developer.android.com/games/agdk/game-activity' : 'https://expo.dev/privacy'}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-xs font-semibold text-red-400 hover:underline inline-flex items-center gap-1"
                 >
-                  <span>Expo Privacy Policy</span>
+                  <span>{isHelix ? 'Android Game SDK Documentation' : 'Expo Privacy Policy'}</span>
                   <FiExternalLink className="h-3 w-3" />
                 </a>
               </div>

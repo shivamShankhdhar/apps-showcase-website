@@ -41,7 +41,9 @@ async function getGame(slug: string): Promise<AppItem | null> {
       a.package?.toLowerCase() === normalizedSlug ||
       a.title?.toLowerCase().replace(/\s+/g, '-') === normalizedSlug ||
       (normalizedSlug === 'ludo' && a.id === 'ludo-binge') ||
-      (normalizedSlug === 'chess' && a.id === 'chess-binge')
+      (normalizedSlug === 'chess' && a.id === 'chess-binge') ||
+      (normalizedSlug === 'arrow' && a.id === 'arrow-binge') ||
+      (normalizedSlug === 'helix' && a.id === 'helix-binge')
   );
 
   return fallback || null;

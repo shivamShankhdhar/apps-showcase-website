@@ -70,15 +70,21 @@ export default function Footer({ initialPortfolioUrl }: FooterProps = {}) {
             </p>
             <ul className="space-y-2">
               <li>
-                <Link href="/games" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
+                <Link href="/apps/games/chess-binge" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
                   <FaGamepad className="h-3 w-3 text-red-500" />
                   <span>Chess Binge (Android)</span>
                 </Link>
               </li>
               <li>
-                <Link href="/games" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
+                <Link href="/apps/games/ludo-binge" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
                   <FaGamepad className="h-3 w-3 text-red-500" />
                   <span>Ludo Binge (Closed Testing)</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/apps/games/helix-binge" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
+                  <FaGamepad className="h-3 w-3 text-emerald-400" />
+                  <span>Helix Binge (Production)</span>
                 </Link>
               </li>
               <li>
@@ -100,6 +106,11 @@ export default function Footer({ initialPortfolioUrl }: FooterProps = {}) {
                 <Link href="/privacy-policy" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
                   <FiShield className="h-3 w-3 text-red-500" />
                   <span>Developer Privacy Policy</span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/apps/games/helix-binge/privacy-policy" className="hover:text-red-400 transition-colors">
+                  Helix Binge Privacy Policy
                 </Link>
               </li>
               <li>

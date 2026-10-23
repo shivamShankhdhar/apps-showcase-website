@@ -109,8 +109,18 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
   const isChess =
     game.title.toLowerCase().includes('chess') ||
     game.package.toLowerCase().includes('chess');
+  const isHelix =
+    game.title.toLowerCase().includes('helix') ||
+    game.package.toLowerCase().includes('helix') ||
+    game.id?.toLowerCase().includes('helix');
+  const isArrow =
+    game.title.toLowerCase().includes('arrow') ||
+    game.package.toLowerCase().includes('arrow') ||
+    game.id?.toLowerCase().includes('arrow');
 
-  const [atmosphere, setAtmosphere] = useState<AtmosphereColor>(isChess ? 'cyber' : 'emerald');
+  const [atmosphere, setAtmosphere] = useState<AtmosphereColor>(
+    isChess ? 'cyber' : isHelix ? 'crimson' : 'emerald'
+  );
   const currentAtmosphere = atmospherePresets.find((a) => a.id === atmosphere) || atmospherePresets[0];
 
   const isTesting =
@@ -207,7 +217,44 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
     },
   ];
 
-  const currentScreenshots = isChess ? chessScreenshots : ludoScreenshots;
+  const helixScreenshots = [
+    {
+      src: '/screenshots/helix/01_home_lobby.png',
+      title: 'Helix Binge 3D Tower Lobby',
+      caption: 'Dynamic 3D soccer ball hero preview, procedural tower preview, and high score record tracker.',
+    },
+    {
+      src: '/screenshots/helix/02_how_to_play.png',
+      title: 'Full-Height Rules & Gameplay Guide',
+      caption: 'Device-spanning clay modal detailing rotation drag controls, smash points, and hazard shields.',
+    },
+    {
+      src: '/screenshots/helix/03_3d_gameplay.png',
+      title: 'Real-Time C++ OpenGL ES 3.0 Gameplay',
+      caption: 'Silky 60/120 FPS 3D rendering with authentic soccer ball seams, angular momentum roll, and gap drops.',
+    },
+    {
+      src: '/screenshots/helix/04_game_paused.png',
+      title: 'Edge-to-Edge Pause Interface',
+      caption: 'Seamless full-device pause screen with level stats, quick audio toggles, and safe cutout margins.',
+    },
+    {
+      src: '/screenshots/helix/05_match_result.png',
+      title: 'Game Over & Victory Overlays',
+      caption: 'Clay-morphic full-height score card with smash statistics, best score record, and AdMob integration.',
+    },
+    {
+      src: '/screenshots/helix/06_game_setup.png',
+      title: 'Tower & Platform Customizer',
+      caption: 'Customizable geometry shapes (Star, Circle, Hexagon, Octagon) and vibrant pastel color themes.',
+    },
+  ];
+
+  const currentScreenshots = isHelix
+    ? helixScreenshots
+    : isChess
+    ? chessScreenshots
+    : ludoScreenshots;
   const [activeScreenIndex, setActiveScreenIndex] = useState(0);
 
   const handleDiceRoll = (val: number) => {
@@ -216,6 +263,10 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
     } else {
       setLastEvent(`Rolled a ${val}! Advancing active pawn along outer track.`);
     }
+  };
+
+  const handleBallSmash = () => {
+    setLastEvent('Combo Smash! 🔥 Ball smashed through 3 helix plates! Fireball streak activated.');
   };
 
   return (
@@ -482,6 +533,17 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                     <div className="scale-75 origin-center">
                       <ChessBoardView />
                     </div>
+                  ) : isHelix ? (
+                    <div
+                      className="flex flex-col items-center justify-center p-3 text-center cursor-pointer select-none group"
+                      onClick={handleBallSmash}
+                    >
+                      <div className="text-4xl animate-bounce group-hover:scale-115 transition-transform duration-200">
+                        ⚽
+                      </div>
+                      <div className="h-2 w-14 bg-rose-500/80 rounded-full mt-2 blur-xs"></div>
+                      <span className="text-[10px] text-red-400 font-mono mt-1 font-bold">Tap to Smash</span>
+                    </div>
                   ) : (
                     <div className="scale-75 origin-center">
                       <LudoBoardView onDiceRoll={handleDiceRoll} />
@@ -498,6 +560,8 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                 <p className="text-[11px] text-slate-400 leading-relaxed">
                   {isChess
                     ? 'Evaluates legal moves, pins, and candidate branch choices on-device.'
+                    : isHelix
+                    ? 'Tap the soccer ball to simulate gravity drop, combo fireball smash, and disk clearing.'
                     : 'Tap the dice to simulate turn events, citadel releases, and extra rolls.'}
                 </p>
                 <p className="text-[10px] font-mono text-amber-400 bg-black/40 px-2 py-1 rounded border border-white/10">
@@ -810,6 +874,28 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                     </p>
                   </div>
                 </>
+              ) : isHelix ? (
+                <>
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2">
+                    <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                      <FiCpu className="h-4 w-4 text-emerald-400" />
+                      <span>C++20 &amp; OpenGL ES 3.0 Engine</span>
+                    </h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Android NDK GameActivity pipeline rendering at silky 60/120 FPS. High-precision truncated icosahedron mesh with specular leather pentagons, recessed seams, and angular roll momentum.
+                    </p>
+                  </div>
+
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2">
+                    <h4 className="text-sm font-bold text-white flex items-center gap-2">
+                      <FiLayers className="h-4 w-4 text-emerald-400" />
+                      <span>Procedural Tower &amp; 10,000 Levels</span>
+                    </h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Infinite procedural skyscraper towers with seed-deterministic platform slice distribution, rotational gaps, dynamic hazards, and progressive difficulty ramp.
+                    </p>
+                  </div>
+                </>
               ) : (
                 <>
                   <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2">
@@ -869,6 +955,29 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                     <h4 className="text-sm font-bold text-white">Interactive Chess Academy Curriculum</h4>
                     <p className="text-xs text-slate-400 leading-relaxed">
                       Structured interactive lessons across: Foundations (Piece Movement & Special Rules), Tactical Motifs (Pins, Forks, Skewers, Discovered Attacks), Opening Principles (Center Control & King Safety), and Essential Endgames (King & Pawn, Opposition).
+                    </p>
+                  </div>
+                </>
+              ) : isHelix ? (
+                <>
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2">
+                    <h4 className="text-sm font-bold text-white">Gravity Drops &amp; Rotational Touch</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Drag left/right anywhere on screen to smoothly spin the helix tower. Position gaps directly under the bouncing soccer ball to plunge through multi-tier levels.
+                    </p>
+                  </div>
+
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2">
+                    <h4 className="text-sm font-bold text-white">Combo Fireball &amp; Hazard Plates</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Plunging through 3+ consecutive platform gaps supercharges the ball into a blazing fireball that instantly shatters dark hazard plates without taking damage.
+                    </p>
+                  </div>
+
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2 md:col-span-2">
+                    <h4 className="text-sm font-bold text-white">Edge-to-Edge Full Device Modals</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Modern clay-morphic UI with full-device-height game over, level complete, pause, and how-to-play dialogs adhering strictly to Android 15/16 edge-to-edge window insets.
                     </p>
                   </div>
                 </>
@@ -936,6 +1045,35 @@ export default function ProductOverviewClient({ game }: ProductOverviewClientPro
                         </span>
                       ))}
                     </div>
+                  </div>
+                </div>
+              ) : isHelix ? (
+                <div className="space-y-6">
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-3">
+                    <h4 className="text-sm font-bold text-white">7 Procedural Platform Geometry Styles</h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                      {[
+                        { name: 'Classic Star', desc: 'Serrated star-cut stack plates with sharp angular edges' },
+                        { name: 'Radial Circle', desc: 'Smooth disc-cut cylinder stacks with high-gloss edges' },
+                        { name: 'Hexagon Core', desc: 'Honeycomb hexagonal geometry with beveled facets' },
+                        { name: 'Octagon Fortress', desc: 'Heavy octagonal battlements with wide defensive gaps' },
+                        { name: 'Industrial Gear', desc: 'Toothed mechanical cog wheels with industrial teeth' },
+                        { name: 'Square Monolith', desc: 'Square block stack towers with 90-degree corners' },
+                        { name: 'Lotus Flower', desc: 'Petal-sculpted curving plates with organic arcs' },
+                      ].map((t, i) => (
+                        <div key={i} className="p-3.5 rounded-xl bg-black/40 border border-white/10 space-y-1">
+                          <span className="text-xs font-bold text-white">{t.name}</span>
+                          <p className="text-[11px] text-slate-400">{t.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-6 rounded-2xl bg-[#12131c] border border-white/10 space-y-2">
+                    <h4 className="text-sm font-bold text-white">6 Vibrant Pastel Color Palettes</h4>
+                    <p className="text-xs text-slate-400 leading-relaxed">
+                      Lime Burst, Deep Turquoise, Sunset Ember, Neon Synthwave, Royal Violet, and Pastel Candy.
+                    </p>
                   </div>
                 </div>
               ) : (

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import { FaDiceD6, FaChessKnight, FaGamepad } from 'react-icons/fa6';
 import { FiZap, FiCpu, FiSmartphone, FiCode, FiLayers } from 'react-icons/fi';
 
@@ -18,6 +19,42 @@ export default function AppIcon({
   const lowerTitle = title.toLowerCase();
   const lowerCat = category.toLowerCase();
   const lowerIcon = iconString.toLowerCase();
+
+  // Custom Image Icon path (e.g. /icons/helix.png)
+  if (iconString && iconString.startsWith('/')) {
+    return (
+      <div className={`relative overflow-hidden rounded-xl shadow-xs shrink-0 ${className}`}>
+        <Image
+          src={iconString}
+          alt={title || 'App icon'}
+          fill
+          sizes="64px"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
+
+  // Helix Stack / Helix Binge
+  if (
+    lowerTitle.includes('helix') ||
+    lowerTitle.includes('stack') ||
+    lowerIcon.includes('layers') ||
+    lowerIcon.includes('helix') ||
+    iconString === '🌀'
+  ) {
+    return (
+      <div className={`relative overflow-hidden rounded-xl shadow-xs shrink-0 ${className}`}>
+        <Image
+          src="/icons/helix.png"
+          alt="Helix Binge Icon"
+          fill
+          sizes="64px"
+          className="object-cover"
+        />
+      </div>
+    );
+  }
 
   // Ludo
   if (
