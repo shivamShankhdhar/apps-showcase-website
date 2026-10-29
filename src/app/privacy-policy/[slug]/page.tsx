@@ -39,7 +39,9 @@ export default async function AppPrivacyPolicyPage({ params }: PageProps) {
     slug.toLowerCase().includes('chess') ||
     slug.toLowerCase().includes('ludo') ||
     slug.toLowerCase().includes('arrow') ||
-    slug.toLowerCase().includes('helix');
+    slug.toLowerCase().includes('helix') ||
+    slug.toLowerCase().includes('blast') ||
+    slug.toLowerCase().includes('candy');
 
   if (isGame) {
     redirect(`/apps/games/${app?.id || slug}/privacy-policy`);

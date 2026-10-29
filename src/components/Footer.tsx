@@ -88,6 +88,12 @@ export default function Footer({ initialPortfolioUrl }: FooterProps = {}) {
                 </Link>
               </li>
               <li>
+                <Link href="/apps/games/blast-binge" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
+                  <FaGamepad className="h-3 w-3 text-amber-400" />
+                  <span>Blast Binge (Production)</span>
+                </Link>
+              </li>
+              <li>
                 <Link href="/#apps" className="hover:text-red-400 transition-colors flex items-center gap-1.5">
                   <FiSmartphone className="h-3 w-3 text-red-500" />
                   <span>FlowTask Pro & DevLens</span>
@@ -111,6 +117,11 @@ export default function Footer({ initialPortfolioUrl }: FooterProps = {}) {
               <li>
                 <Link href="/apps/games/helix-binge/privacy-policy" className="hover:text-red-400 transition-colors">
                   Helix Binge Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/apps/games/blast-binge/privacy-policy" className="hover:text-red-400 transition-colors">
+                  Blast Binge Privacy Policy
                 </Link>
               </li>
               <li>

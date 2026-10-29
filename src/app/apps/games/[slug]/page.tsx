@@ -43,7 +43,8 @@ async function getGame(slug: string): Promise<AppItem | null> {
       (normalizedSlug === 'ludo' && a.id === 'ludo-binge') ||
       (normalizedSlug === 'chess' && a.id === 'chess-binge') ||
       (normalizedSlug === 'arrow' && a.id === 'arrow-binge') ||
-      (normalizedSlug === 'helix' && a.id === 'helix-binge')
+      (normalizedSlug === 'helix' && a.id === 'helix-binge') ||
+      ((normalizedSlug === 'blast' || normalizedSlug === 'candy' || normalizedSlug === 'candy-crush-binge') && a.id === 'blast-binge')
   );
 
   return fallback || null;

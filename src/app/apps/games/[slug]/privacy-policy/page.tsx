@@ -73,15 +73,16 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
   const isChess = slug.toLowerCase().includes('chess');
   const isLudo = slug.toLowerCase().includes('ludo');
   const isArrow = slug.toLowerCase().includes('arrow');
-  const isHelix = slug.toLowerCase().includes('helix') || game?.id === 'helix-binge' || slug.toLowerCase().includes('binge');
+  const isBlast = slug.toLowerCase().includes('blast') || slug.toLowerCase().includes('candy') || game?.id === 'blast-binge';
+  const isHelix = slug.toLowerCase().includes('helix') || game?.id === 'helix-binge';
 
-  if (!game && !isChess && !isLudo && !isArrow && !isHelix) {
+  if (!game && !isChess && !isLudo && !isArrow && !isHelix && !isBlast) {
     notFound();
   }
 
-  const appTitle = game?.title || (isChess ? 'Chess Binge' : (isLudo ? 'Ludo Binge' : (isArrow ? 'Arrow Binge' : 'Helix Binge')));
-  const appPackage = game?.package || (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : (isArrow ? 'arrow.binge' : 'helix.binge')));
-  const effectiveDate = isChess ? 'September 19, 2026' : (isLudo ? 'September 22, 2026' : (isArrow ? 'October 15, 2026' : 'October 23, 2026'));
+  const appTitle = game?.title || (isBlast ? 'Blast Binge' : (isChess ? 'Chess Binge' : (isLudo ? 'Ludo Binge' : (isArrow ? 'Arrow Binge' : 'Helix Binge'))));
+  const appPackage = game?.package || (isBlast ? 'com.example.candycrushbinge' : (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : (isArrow ? 'arrow.binge' : 'helix.binge'))));
+  const effectiveDate = isBlast ? 'October 29, 2026' : (isChess ? 'September 19, 2026' : (isLudo ? 'September 22, 2026' : (isArrow ? 'October 15, 2026' : 'October 23, 2026')));
   const productOverviewUrl = `/apps/games/${game?.id || slug}`;
 
   return (
