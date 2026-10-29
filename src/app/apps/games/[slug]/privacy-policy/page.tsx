@@ -81,7 +81,7 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
   }
 
   const appTitle = game?.title || (isBlast ? 'Blast Binge' : (isChess ? 'Chess Binge' : (isLudo ? 'Ludo Binge' : (isArrow ? 'Arrow Binge' : 'Helix Binge'))));
-  const appPackage = game?.package || (isBlast ? 'com.example.candycrushbinge' : (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : (isArrow ? 'arrow.binge' : 'helix.binge'))));
+  const appPackage = game?.package || (isBlast ? 'blast.binge' : (isChess ? 'chess.binge' : (isLudo ? 'ludo.binge' : (isArrow ? 'arrow.binge' : 'helix.binge'))));
   const effectiveDate = isBlast ? 'October 29, 2026' : (isChess ? 'September 19, 2026' : (isLudo ? 'September 22, 2026' : (isArrow ? 'October 15, 2026' : 'October 23, 2026')));
   const productOverviewUrl = `/apps/games/${game?.id || slug}`;
 

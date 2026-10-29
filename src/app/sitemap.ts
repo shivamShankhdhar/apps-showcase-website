@@ -90,7 +90,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 0.8,
     },
     {
-      url: `${baseUrl}/privacy-policy/com.example.candycrushbinge`,
+      url: `${baseUrl}/privacy-policy/blast.binge`,
       lastModified,
       changeFrequency: 'monthly',
       priority: 0.8,
