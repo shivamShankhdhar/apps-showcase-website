@@ -490,7 +490,7 @@ export default async function GamePrivacyPolicyPage({ params }: PageProps) {
                 <strong>How to Opt-Out of Targeted Advertising:</strong> You can reset or delete your Google Advertising ID on Android via <code>Settings &gt; Google &gt; Ads &gt; Delete advertising ID</code>. Once deleted, advertisers will no longer be able to associate ad activity across different apps with your device.
               </p>
               <p>
-                <strong>Inquiries &amp; Deletion Requests:</strong> For any questions regarding privacy or data rights, contact us at <a href="mailto:s.shankhdhar1981@gmail.com" className="text-red-400 font-semibold underline">s.shankhdhar1981@gmail.com</a>. We respond promptly within 30 days.
+                <strong>Inquiries &amp; Deletion Requests:</strong> For account deletion instructions or to submit a formal request to purge your cloud save records, visit our dedicated <Link href={`/apps/games/${game?.id || slug}/delete-account`} className="text-red-400 font-semibold underline inline-flex items-center gap-1"><span>Account &amp; Data Deletion Request Page</span><FiExternalLink className="h-3 w-3" /></Link> or email us directly at <a href="mailto:s.shankhdhar1981@gmail.com" className="text-red-400 font-semibold underline">s.shankhdhar1981@gmail.com</a>. We process requests within 7 business days.
               </p>
             </div>
           </section>
